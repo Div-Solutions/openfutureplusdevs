@@ -712,6 +712,131 @@ const awardUserPoint = () => {
   }
 };
 
+const getSubjectMaterials = (subject) => {
+  const title = subject.title || 'Subject';
+  const examFocus = subject.examFocus || 'Core theory and practical understanding';
+
+  const topicPatterns = {
+    'English Home Language': {
+      notes: ['Analyse language features, themes, and tone in prose and poetry.', 'Practise essay structure, paragraphing, and sentence variety.', 'Revise comprehension strategies and assessment terminology.'],
+      papers: ['Comprehension and summary task practice.', 'Essay plan and writing drills for literature-based questions.', 'Language structures and editing practice papers.'],
+      quizzes: ['Identify figurative language in a sample paragraph.', 'Choose the best topic sentence for an essay.', 'Match literary devices to their definitions.']
+    },
+    'Afrikaans FAL': {
+      notes: ['Build vocabulary with everyday and formal Afrikaans phrases.', 'Practise summary writing and sentence correction.', 'Know grammar rules for tense, adjectives, and verbs.'],
+      papers: ['Transactional writing and diary responses.', 'Reading comprehension and context-based questions.', 'Grammar revision tests with correction exercises.'],
+      quizzes: ['Choose the correct verb form in context.', 'Identify adjective agreement and sentence structure.', 'Match Afrikaans vocabulary to meanings.']
+    },
+    Mathematics: {
+      notes: ['Revise equations, algebra, functions, and patterns.', 'Memorise formulas and always show working clearly.', 'Practise geometry and trigonometry applications.'],
+      papers: ['Algebra and equation-solving papers.', 'Patterns, sequences, and function question sets.', 'Geometry, trigonometry, and Euclidean proof practice.'],
+      quizzes: ['Solve one-step and two-step equations.', 'Find the gradient of a line from two points.', 'Apply the theorem of Pythagoras to a right triangle.']
+    },
+    'Mathematical Literacy': {
+      notes: ['Work with ratios, finance, percentages, and graphs.', 'Read the story behind the numbers before calculating.', 'Use units and rounding carefully in real-world tasks.'],
+      papers: ['Finance and banking scenario questions.', 'Maps, graphs, and interpretation tasks.', 'Ratio, speed, and percentage applications.'],
+      quizzes: ['Calculate percentage increase or decrease.', 'Interpret a graph and identify the trend.', 'Convert between units or rates in a real-life example.']
+    },
+    'Physical Sciences': {
+      notes: ['Focus on formulas, units, graphs, and scientific reasoning.', 'Revise definitions for motion, forces, and energy.', 'Use worked examples to strengthen problem-solving.'],
+      papers: ['Mechanics, electricity, and chemical reactions.', 'Rate-of-reaction and balancing equations questions.', 'Practical lab and graph interpretation tasks.'],
+      quizzes: ['Calculate force using mass and acceleration.', 'Balance a simple chemistry equation.', 'Identify independent and dependent variables in an experiment.']
+    },
+    'Life Sciences': {
+      notes: ['Revise cell structure, genetics, and biological systems.', 'Use labelled diagrams and definitions in answers.', 'Connect theory with everyday examples from life.'],
+      papers: ['Genetics, inheritance, and reproduction questions.', 'Human systems and ecosystems tasks.', 'Diagram labelling and process-explanation papers.'],
+      quizzes: ['Name the stages of mitosis.', 'Match organ systems to their functions.', 'Identify the correct sequence in photosynthesis.']
+    },
+    Accounting: {
+      notes: ['Practise accounting equation, journals, and ledgers.', 'Know the difference between cash and accrual concepts.', 'Revise financial statements and adjustments.'],
+      papers: ['Journal entries and ledger trial balance tasks.', 'Cash flow and financial statement preparation.', 'Year-end adjustments and balance sheet practice.'],
+      quizzes: ['Identify debit and credit entries.', 'Classify expenses and assets correctly.', 'Prepare a simple profit and loss calculation.']
+    },
+    'Business Studies': {
+      notes: ['Review business functions, management, and marketing.', 'Use case studies to connect theory to real organisations.', 'Study entrepreneurship and economic factors.'],
+      papers: ['Business environments and stakeholder questions.', 'Marketing, management, and operations tasks.', 'Case-study essays about a business challenge.'],
+      quizzes: ['Match management functions to examples.', 'Identify the correct marketing mix element.', 'Choose the best form of ownership for a business scenario.']
+    },
+    Economics: {
+      notes: ['Understand scarcity, demand, supply, inflation, and unemployment.', 'Practise explaining graphs and economic terms clearly.', 'Learn how government policies affect households and firms.'],
+      papers: ['Microeconomics and macroeconomics questions.', 'Inflation, graphs, and market behaviour tasks.', 'Policy and trade topic revision.'],
+      quizzes: ['Identify the effect of a price increase on demand.', 'Match inflation causes to their consequences.', 'Interpret a supply-and-demand graph.']
+    },
+    Geography: {
+      notes: ['Revise map skills, climate, population, and environmental management.', 'Use case studies and examples to support answers.', 'Learn how landforms and human activity shape regions.'],
+      papers: ['Map reading and interpretation tasks.', 'Weather, climate, and settlement questions.', 'Population and environmental management practice.'],
+      quizzes: ['Identify features on a map.', 'Choose the best climate description for a region.', 'Match environmental issues to their causes.']
+    },
+    History: {
+      notes: ['Build a clear timeline and note causes and consequences.', 'Practise source-based answers and essay structure.', 'Compare events across different historical periods.'],
+      papers: ['Source-based interpretation questions.', 'Cause-and-effect essay tasks.', 'Timeline and significance revision sets.'],
+      quizzes: ['Match a historical event to its cause.', 'Choose the strongest evidence in a source response.', 'Identify the significance of a date or movement.']
+    },
+    'Computer Applications Technology': {
+      notes: ['Revise spreadsheets, internet safety, and file management.', 'Practice word processing, formatting, and formulas.', 'Understand database and system concepts.'],
+      papers: ['Spreadsheet formula and formatting tasks.', 'Database queries and practical application tasks.', 'System software and internet safety questions.'],
+      quizzes: ['Identify the correct spreadsheet formula.', 'Choose the best way to format a document.', 'Select the appropriate internet safety practice.']
+    },
+    'Information Technology': {
+      notes: ['Revise programming logic, data types, and algorithms.', 'Break large problems into smaller steps.', 'Practise pseudocode and digital systems concepts.'],
+      papers: ['Programming logic and algorithm questions.', 'Hardware, software, and networking tasks.', 'Data representation and problem-solving exercises.'],
+      quizzes: ['Predict the output of a short algorithm.', 'Select the correct data type for a value.', 'Identify the correct logic gate or control structure.']
+    },
+    'Engineering Graphics & Design': {
+      notes: ['Practise line types, dimensioning, and orthographic projections.', 'Study scale and layout conventions carefully.', 'Use past drawings to improve accuracy and presentation.'],
+      papers: ['Orthographic drawing tasks.', 'Dimensioning and line-work questions.', 'Design communication and CAD-style exercises.'],
+      quizzes: ['Identify the correct line type for a hidden edge.', 'Choose the correct scale for a drawing.', 'Match a view to an object description.']
+    },
+    'Life Orientation': {
+      notes: ['Focus on career planning, health, and personal development.', 'Revise values, communication, and social responsibility.', 'Reflect on study skills and goal setting.'],
+      papers: ['Career and personal development responses.', 'Health and life skills scenarios.', 'Reflective and citizenship-oriented questions.'],
+      quizzes: ['Select the best career decision for a scenario.', 'Identify healthy communication habits.', 'Match a life skill to a real-world challenge.']
+    },
+    'Visual Arts': {
+      notes: ['Study colour theory, composition, and visual analysis.', 'Build confidence describing artworks and design choices.', 'Keep sketching and critique practice consistent.'],
+      papers: ['Art criticism and theory tasks.', 'Practical design and mixed-media planning.', 'Analysis of style, movement, and meaning.'],
+      quizzes: ['Identify the mood created by a colour palette.', 'Match an art movement to a style description.', 'Name the design principle used in a composition.']
+    },
+    Music: {
+      notes: ['Revise notation, rhythm, and listening skills.', 'Practise intervals, scales, and musical vocabulary.', 'Connect theory to performance and composition.'],
+      papers: ['Music theory and notation tasks.', 'Listening analysis and rhythm practice.', 'Performance and composition question sets.'],
+      quizzes: ['Identify the time signature in a rhythm.', 'Match a note to its value.', 'Choose the correct musical term for a sound pattern.']
+    },
+    Tourism: {
+      notes: ['Study tourism sectors, customer service, and destinations.', 'Understand responsible travel and local/global trends.', 'Revise challenges and opportunities in hospitality.'],
+      papers: ['Tourism service and customer experience questions.', 'Destination and travel planning tasks.', 'Tourism trends and sustainability scenarios.'],
+      quizzes: ['Choose the best customer-service response.', 'Match a tourism sector to a service example.', 'Identify a sustainable tourism practice.']
+    },
+    'Consumer Studies': {
+      notes: ['Revise food, textiles, budgeting, and consumer rights.', 'Understand labels, nutrition, and household management.', 'Use examples to explain responsible consumer choices.'],
+      papers: ['Budgeting, nutrition, and household planning tasks.', 'Textiles and consumer rights scenarios.', 'Food preparation and consumer decision questions.'],
+      quizzes: ['Identify the healthiest food choice for a case study.', 'Choose the correct consumer-rights principle.', 'Match a household task to the correct management skill.']
+    },
+    'Agricultural Sciences': {
+      notes: ['Revise soil science, plant growth, and animal systems.', 'Use diagrams and examples to explain processes.', 'Focus on sustainable agriculture and farm management.'],
+      papers: ['Plant and animal systems practice questions.', 'Soil and agricultural productivity tasks.', 'Sustainable farming and management scenarios.'],
+      quizzes: ['Identify the role of soil nutrients.', 'Match a crop need to the correct farming practice.', 'Choose the best method for sustainable production.']
+    },
+    Drama: {
+      notes: ['Practise performance, characterisation, and dramatic conventions.', 'Learn how theme and tension shape a play.', 'Use evidence from texts to support analysis.'],
+      papers: ['Performance and character analysis tasks.', 'Stage conventions and dramatic technique questions.', 'Text interpretation and scene analysis assignments.'],
+      quizzes: ['Identify a dramatic convention in a scene.', 'Match a character trait to a performance choice.', 'Choose the strongest evidence for a dramatic interpretation.']
+    }
+  };
+
+  const defaultPattern = {
+    notes: [
+      `${title} revision should focus on the most important concepts, terminology, and application points.`,
+      `${examFocus} is a good starting point for your revision schedule.`,
+      'Practise a mix of short-answer, paragraph, and application questions to improve confidence.'
+    ],
+    papers: ['Past-question style application exercises.', 'Short revision tests based on the main topic sections.', 'Timed practice tasks to improve exam pacing.'],
+    quizzes: ['Match key terms to definitions.', 'Choose the correct method or answer from a scenario.', 'Test recall from your topic summary notes.']
+  };
+
+  return topicPatterns[title] || defaultPattern;
+};
+
 const renderSubjectResources = () => {
   const list = document.getElementById('subjectResourceList');
   if (!list) return;
@@ -721,6 +846,11 @@ const renderSubjectResources = () => {
     .trim()
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-+|-+$/g, '');
+
+  const buttonsHTML = SUBJECT_RESOURCES.map((subject) => {
+    const slug = makeSlug(subject.title);
+    return `<button type="button" class="subject-button" data-target="#${slug}" aria-label="Open ${subject.title}">${subject.title}</button>`;
+  }).join('');
 
   const cardsHTML = SUBJECT_RESOURCES.map((subject) => {
     const slug = makeSlug(subject.title);
@@ -745,6 +875,8 @@ const renderSubjectResources = () => {
 
   const detailsHTML = SUBJECT_RESOURCES.map((subject) => {
     const slug = makeSlug(subject.title);
+    const materials = getSubjectMaterials(subject);
+
     return `
       <section id="${slug}" class="subject-detail-panel" aria-label="Study materials for ${subject.title}">
         <div class="subject-topline">Study materials</div>
@@ -754,14 +886,44 @@ const renderSubjectResources = () => {
           <strong>Exam focus:</strong>
           <span>${subject.examFocus}</span>
         </div>
-        <ul>
-          ${subject.studyTips.map((tip) => `<li>${tip}</li>`).join('')}
-        </ul>
+        <div class="subject-material-grid">
+          <div class="material-column">
+            <h4>Study notes</h4>
+            <ul>
+              ${materials.notes.map((item) => `<li>${item}</li>`).join('')}
+            </ul>
+          </div>
+          <div class="material-column">
+            <h4>Question papers</h4>
+            <ul>
+              ${materials.papers.map((item) => `<li>${item}</li>`).join('')}
+            </ul>
+          </div>
+          <div class="material-column">
+            <h4>Quizzes</h4>
+            <ul>
+              ${materials.quizzes.map((item) => `<li>${item}</li>`).join('')}
+            </ul>
+          </div>
+        </div>
       </section>
     `;
   }).join('');
 
-  list.innerHTML = `${cardsHTML}<div class="subject-detail-list">${detailsHTML}</div>`;
+  list.innerHTML = `
+    <div class="subject-button-list">${buttonsHTML}</div>
+    <div class="resource-grid">${cardsHTML}</div>
+    <div class="subject-detail-list">${detailsHTML}</div>
+  `;
+
+  list.querySelectorAll('.subject-button').forEach((button) => {
+    button.addEventListener('click', () => {
+      const target = document.querySelector(button.dataset.target);
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
 };
 
 const renderTutCourses = () => {
