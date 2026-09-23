@@ -34,76 +34,12 @@
 
           <div class="tool-panel">
             <form id="apsForm" class="mini-form">
-              <div class="input-grid">
-                <div>
-                  <label for="subject1">Subject 1</label>
-                  <input id="subject1" type="text" value="English" />
-                </div>
-                <div>
-                  <label for="percentage1">% or Level</label>
-                  <input id="percentage1" type="number" min="0" max="100" step="1" placeholder="85 or choose below" />
-                </div>
-                <div>
-                  <label for="level1">Level</label>
-                  <select id="level1">
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                    <option value="6">6</option>
-                    <option value="7">7</option>
-                  </select>
-                </div>
-              </div>
+              <div id="apsSubjectRows" class="aps-subject-rows" aria-live="polite"></div>
 
-              <div class="input-grid">
-                <div>
-                  <label for="subject2">Subject 2</label>
-                  <input id="subject2" type="text" value="Mathematics" />
-                </div>
-                <div>
-                  <label for="percentage2">% or Level</label>
-                  <input id="percentage2" type="number" min="0" max="100" step="1" placeholder="92 or choose below" />
-                </div>
-                <div>
-                  <label for="level2">Level</label>
-                  <select id="level2">
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                    <option value="6">6</option>
-                    <option value="7" selected>7</option>
-                  </select>
-                </div>
+              <div class="aps-actions">
+                <button type="button" id="addApsSubject" class="button secondary">Add Subject</button>
+                <button type="submit" class="button primary">Calculate APS</button>
               </div>
-
-              <div class="input-grid">
-                <div>
-                  <label for="subject3">Subject 3</label>
-                  <input id="subject3" type="text" value="Life Orientation" />
-                </div>
-                <div>
-                  <label for="percentage3">% or Level</label>
-                  <input id="percentage3" type="number" min="0" max="100" step="1" placeholder="75 or choose below" />
-                </div>
-                <div>
-                  <label for="level3">Level</label>
-                  <select id="level3">
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5" selected>5</option>
-                    <option value="6">6</option>
-                    <option value="7">7</option>
-                  </select>
-                </div>
-              </div>
-
-              <button type="submit" class="button primary">Calculate APS</button>
             </form>
 
             <div class="result-box" id="apsResult">Your APS score will appear here.</div>

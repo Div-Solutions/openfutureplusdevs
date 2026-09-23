@@ -1,3 +1,9 @@
+const supabaseUrl = 'https://bsrmyybqpkcukcavkzzl.supabase.co';
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJzcm15eWJxcGtjdWtjYXZrenpsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTAxNjU4MTUsImV4cCI6MjEwNTc0MTgxNX0.0ZxEkNlZjTcQUqyjgYhPoMCG86iueq--IzSLeRGqOO8';
+const supabase = window.supabase && typeof window.supabase.createClient === 'function'
+  ? window.supabase.createClient(supabaseUrl, supabaseKey)
+  : null;
+
 const menuButton = document.querySelector('.menu-button');
 const navLinks = document.querySelector('.nav-links');
 const helpForm = document.getElementById('helpForm');
@@ -8,9 +14,18 @@ const year = document.getElementById('year');
 const STORAGE_KEY = 'openfuture_users_v1';
 const SESSION_KEY = 'openfuture_session_v1';
 const ADMIN_EMAIL = 'mutavhatsindivule@gmail.com';
-const ADMIN_PASSWORD = 'Admin@1';
-const ADMIN_PHONE = '+27716420323';
+const ADMIN_PASSWORD = 'Admin@1t';
+const ADMIN_PHONE = '+27 72 999 0064';
 const SECURITY_SECRET = 'openfutureplus-static-security-v1';
+const SESSION_TIMEOUT_MS = 20 * 60 * 1000;
+const ADMIN_NAME = 'Vuledzani Mbangambanga Mutavhatsindi';
+const PHONE_COUNTRY_OPTIONS = [
+  { value: 'ZA', label: 'South Africa (+27)', dialCode: '+27' },
+  { value: 'US', label: 'United States (+1)', dialCode: '+1' },
+  { value: 'UK', label: 'United Kingdom (+44)', dialCode: '+44' },
+  { value: 'IN', label: 'India (+91)', dialCode: '+91' },
+  { value: 'NG', label: 'Nigeria (+234)', dialCode: '+234' },
+];
 
 const sanitizeText = (value) => String(value ?? '').replace(/[&<>"']/g, (char) => ({
   '&': '&amp;',
@@ -25,7 +40,7 @@ const createSessionToken = (user) => {
     email: user.email,
     role: user.role,
     name: user.name,
-    exp: Date.now() + 60 * 60 * 1000,
+    exp: Date.now() + SESSION_TIMEOUT_MS,
   };
 
   return btoa(encodeURIComponent(JSON.stringify(payload)) + '.' + SECURITY_SECRET);
@@ -332,9 +347,82 @@ const JOB_PORTALS = [
   }
 ];
 
-const normalizePhoneNumber = (value) => {
-  const digits = String(value || '').replace(/\D/g, '').slice(0, 9);
-  return digits ? `+27${digits}` : '';
+const normalizePhoneNumber = (value, countryCode = 'ZA') => {
+  const digits = String(value || '').replace(/\D/g, '');
+  if (!digits) return '';
+
+  const countryMap = {
+    ZA: '+27',
+    US: '+1',
+    UK: '+44',
+    IN: '+91',
+    NG: '+234',
+  };
+
+  const dialCode = countryMap[countryCode] || '+27';
+
+  if (countryCode === 'ZA') {
+    let clean = digits;
+    if (clean.startsWith('27')) {
+      clean = clean.slice(2);
+    }
+    if (clean.startsWith('0')) {
+      clean = clean.slice(1);
+    }
+
+    if (clean.length !== 9) return '';
+    return `${dialCode}${clean}`;
+  }
+
+  if (digits.length < 7 || digits.length > 15) return '';
+  return `${dialCode}${digits}`;
+};
+
+const normalizePhoneForComparison = (value, countryCode = 'ZA') => {
+  const normalized = normalizePhoneNumber(value, countryCode);
+  if (normalized) return normalized;
+
+  const digits = String(value || '').replace(/\D/g, '');
+  if (countryCode === 'ZA' && digits.length === 9) {
+    return `+27${digits}`;
+  }
+
+  return '';
+};
+
+const getAllowedPhoneDigits = (countryCode) => (countryCode === 'ZA' ? 9 : 15);
+
+const formatPhoneForDisplay = (value) => {
+  if (!value) return 'Not provided';
+  const digits = String(value).replace(/\D/g, '');
+  if (!digits) return 'Not provided';
+
+  if (digits.startsWith('27') && digits.length === 12) {
+    const local = digits.slice(2);
+    return `0${local.slice(0, 2)} ${local.slice(2, 5)} ${local.slice(5)}`;
+  }
+
+  if (digits.startsWith('0') && digits.length === 10) {
+    return `${digits.slice(0, 3)} ${digits.slice(3, 6)} ${digits.slice(6)}`;
+  }
+
+  if (digits.length === 9) {
+    return `${digits.slice(0, 3)} ${digits.slice(3, 6)} ${digits.slice(6)}`;
+  }
+
+  return value;
+};
+
+const parseLoginContact = (loginValue, countryCode = 'ZA') => {
+  const value = String(loginValue || '').trim();
+  if (!value) return { email: '', phone: '' };
+
+  if (value.includes('@')) {
+    return { email: value.toLowerCase(), phone: '' };
+  }
+
+  const normalizedPhone = normalizePhoneForComparison(value, countryCode);
+  return { email: '', phone: normalizedPhone || value };
 };
 
 const isStrongPassword = (password) => {
@@ -393,48 +481,138 @@ const resolveAchievementLevel = (percentInput, levelSelect) => {
   return Number(levelSelect.value || 0);
 };
 
+const normalizeSubjectName = (value = '') => String(value ?? '')
+  .trim()
+  .toLowerCase()
+  .replace(/[^a-z0-9\s]/g, ' ')
+  .replace(/\s+/g, ' ')
+  .trim();
+
+const isLifeOrientationSubject = (subjectName = '') => {
+  const normalized = normalizeSubjectName(subjectName);
+  return normalized === 'life orientation' || normalized === 'life orient' || normalized === 'lo' || normalized.includes('life orientation') || normalized.includes('life orient');
+};
+
+const buildApsLevelOptions = (selectedValue = '0') => {
+  const options = ['0', '1', '2', '3', '4', '5', '6', '7'];
+  return options.map((value) => `<option value="${value}" ${value === String(selectedValue) ? 'selected' : ''}>${value}</option>`).join('');
+};
+
+const createApsSubjectRow = (index, subjectName = '', percentageValue = '', selectedLevel = '0') => {
+  const row = document.createElement('div');
+  row.className = 'aps-subject-row';
+  row.innerHTML = `
+    <div class="input-grid aps-row-grid">
+      <div>
+        <label>Subject ${index}</label>
+        <input class="aps-subject" type="text" placeholder="e.g. English" value="${sanitizeText(subjectName)}" />
+      </div>
+      <div>
+        <label>% or Level</label>
+        <input class="aps-mark" type="number" min="0" max="100" step="1" value="${sanitizeText(percentageValue)}" placeholder="85 or choose below" />
+      </div>
+      <div>
+        <label>Level</label>
+        <select class="aps-level">
+          ${buildApsLevelOptions(selectedLevel)}
+        </select>
+      </div>
+      <div>
+        <button type="button" class="remove-aps-subject" aria-label="Remove subject">Remove</button>
+      </div>
+    </div>
+  `;
+  return row;
+};
+
+const ensureApsRows = () => {
+  const container = document.getElementById('apsSubjectRows');
+  if (!container) return;
+
+  if (container.children.length > 0) return;
+
+  const defaults = ['English', 'Mathematics', 'Life Orientation'];
+  defaults.forEach((subject, index) => {
+    const row = createApsSubjectRow(index + 1, subject, '', '0');
+    container.appendChild(row);
+  });
+};
+
+const addApsSubjectRow = () => {
+  const container = document.getElementById('apsSubjectRows');
+  if (!container) return;
+
+  const totalRows = container.querySelectorAll('.aps-subject-row').length;
+  if (totalRows >= 10) {
+    showToast('You can add up to 10 subjects.');
+    return;
+  }
+
+  const nextIndex = totalRows + 1;
+  container.appendChild(createApsSubjectRow(nextIndex, '', '', '0'));
+};
+
 const ensureDemoUsers = () => {
   const existingUsers = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
 
-  if (!Array.isArray(existingUsers) || existingUsers.length === 0) {
-    const demoUsers = [
-      {
-        id: 'admin-1',
-        name: 'Admin User',
-        email: ADMIN_EMAIL,
-        phone: ADMIN_PHONE,
-        password: ADMIN_PASSWORD,
-        role: 'admin',
-        points: 0,
-        district: 'Pretoria',
-        school: 'Open Future+ Admin',
-      },
-      {
-        id: 'user-1',
-        name: 'Mpho Nkosi',
-        email: 'mpho@student.com',
-        phone: '+27731234567',
-        password: 'Mpho@123',
-        role: 'user',
-        points: 0,
-        district: 'Soweto',
-        school: 'Johannesburg Secondary',
-      },
-      {
-        id: 'user-2',
-        name: 'Aphiwe Mokoena',
-        email: 'aphiwe@student.com',
-        phone: '+27728765432',
-        password: 'Aphiwe@123',
-        role: 'user',
-        points: 0,
-        district: 'Durban',
-        school: 'Durban Academy',
-      },
-    ];
+  const demoUsers = [
+    {
+      id: 'admin-1',
+      name: ADMIN_NAME,
+      email: ADMIN_EMAIL,
+      phone: ADMIN_PHONE,
+      password: ADMIN_PASSWORD,
+      role: 'admin',
+      points: 0,
+      district: 'Pretoria',
+      school: 'Open Future+ Admin',
+    },
+    {
+      id: 'user-1',
+      name: 'Demo Student',
+      email: 'student@openfutureplus.demo',
+      phone: '+27 71 234 5678',
+      password: 'Student@123',
+      role: 'user',
+      points: 0,
+      district: 'Johannesburg',
+      school: 'Demo High School',
+    },
+    {
+      id: 'user-2',
+      name: 'Demo Applicant',
+      email: 'applicant@openfutureplus.demo',
+      phone: '+27 82 345 6789',
+      password: 'Applicant@123',
+      role: 'user',
+      points: 0,
+      district: 'Cape Town',
+      school: 'Demo Academy',
+    },
+  ];
 
+  if (!Array.isArray(existingUsers) || existingUsers.length === 0) {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(demoUsers));
+    return;
   }
+
+  const adminIndex = existingUsers.findIndex((user) => user.email?.toLowerCase() === ADMIN_EMAIL.toLowerCase() || user.role === 'admin');
+  if (adminIndex >= 0) {
+    existingUsers[adminIndex] = {
+      ...existingUsers[adminIndex],
+      name: ADMIN_NAME,
+      email: ADMIN_EMAIL,
+      phone: ADMIN_PHONE,
+      password: ADMIN_PASSWORD,
+      role: 'admin',
+      district: existingUsers[adminIndex].district || 'Pretoria',
+      school: existingUsers[adminIndex].school || 'Open Future+ Admin',
+    };
+  } else {
+    existingUsers.unshift(demoUsers[0]);
+  }
+
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(existingUsers));
 };
 
 const readUsers = () => {
@@ -454,8 +632,15 @@ const readSessionUser = () => {
   try {
     const sessionUser = JSON.parse(sessionStorage.getItem(SESSION_KEY) || 'null');
     if (!sessionUser) return null;
-    return isValidSessionToken(sessionUser) ? sessionUser : null;
+
+    if (!isValidSessionToken(sessionUser)) {
+      sessionStorage.removeItem(SESSION_KEY);
+      return null;
+    }
+
+    return sessionUser;
   } catch {
+    sessionStorage.removeItem(SESSION_KEY);
     return null;
   }
 };
@@ -470,6 +655,36 @@ const saveSessionUser = (user) => {
 
 const clearSessionUser = () => {
   sessionStorage.removeItem(SESSION_KEY);
+};
+
+const refreshSessionActivity = () => {
+  const currentUser = readSessionUser();
+  if (!currentUser) return;
+
+  const refreshedUser = {
+    ...currentUser,
+    token: createSessionToken(currentUser),
+  };
+
+  sessionStorage.setItem(SESSION_KEY, JSON.stringify(refreshedUser));
+};
+
+const enforceSessionTimeout = () => {
+  const currentUser = readSessionUser();
+  if (!currentUser) return;
+
+  try {
+    const tokenBody = currentUser.token.split('.')[0];
+    const payload = JSON.parse(decodeURIComponent(atob(tokenBody)));
+    if (Date.now() >= payload.exp) {
+      clearSessionUser();
+      if (window.location.pathname.toLowerCase().endsWith('/admin.html')) {
+        window.location.replace('index.html');
+      }
+    }
+  } catch {
+    clearSessionUser();
+  }
 };
 
 const awardUserPoint = () => {
@@ -501,20 +716,52 @@ const renderSubjectResources = () => {
   const list = document.getElementById('subjectResourceList');
   if (!list) return;
 
-  list.innerHTML = SUBJECT_RESOURCES.map((subject) => `
-    <article class="subject-card">
-      <div class="subject-topline">Study topic</div>
-      <h3>${subject.title}</h3>
-      <p>${subject.summary}</p>
-      <div class="subject-meta">
-        <strong>Exam focus:</strong>
-        <span>${subject.examFocus}</span>
-      </div>
-      <ul>
-        ${subject.studyTips.map((tip) => `<li>${tip}</li>`).join('')}
-      </ul>
-    </article>
-  `).join('');
+  const makeSlug = (title) => String(title)
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+
+  const cardsHTML = SUBJECT_RESOURCES.map((subject) => {
+    const slug = makeSlug(subject.title);
+    return `
+      <article class="subject-card">
+        <a class="subject-card-link" href="#${slug}" aria-label="Open study support for ${subject.title}">
+          <div class="subject-topline">Study topic</div>
+          <h3>${subject.title}</h3>
+          <p>${subject.summary}</p>
+          <div class="subject-meta">
+            <strong>Exam focus:</strong>
+            <span>${subject.examFocus}</span>
+          </div>
+          <ul>
+            ${subject.studyTips.map((tip) => `<li>${tip}</li>`).join('')}
+          </ul>
+          <span class="subject-card-link-label">Open study materials →</span>
+        </a>
+      </article>
+    `;
+  }).join('');
+
+  const detailsHTML = SUBJECT_RESOURCES.map((subject) => {
+    const slug = makeSlug(subject.title);
+    return `
+      <section id="${slug}" class="subject-detail-panel" aria-label="Study materials for ${subject.title}">
+        <div class="subject-topline">Study materials</div>
+        <h3>${subject.title}</h3>
+        <p>${subject.summary}</p>
+        <div class="subject-meta">
+          <strong>Exam focus:</strong>
+          <span>${subject.examFocus}</span>
+        </div>
+        <ul>
+          ${subject.studyTips.map((tip) => `<li>${tip}</li>`).join('')}
+        </ul>
+      </section>
+    `;
+  }).join('');
+
+  list.innerHTML = `${cardsHTML}<div class="subject-detail-list">${detailsHTML}</div>`;
 };
 
 const renderTutCourses = () => {
@@ -593,12 +840,12 @@ const getAssistantReply = (question) => {
   if (q.includes('tut')) return 'The TUT checker helps compare your marks and profile with example TUT programme requirements, so you can see what might be a good fit.';
   if (q.includes('funding') || q.includes('nsfas')) return 'Funding can feel stressful, but you are not alone. Open Future+ can guide you in the right direction, and you should always confirm the final details with the official funding provider.';
   if (q.includes('help')) return 'Absolutely. You can ask me for guidance, use the Get Help form, or reach out through WhatsApp. I can point you in the right direction.';
-  if (q.includes('whatsapp')) return 'You can contact Open Future+ on WhatsApp at +27 72 999 0064. It is a quick way to get help.';
+  if (q.includes('whatsapp')) return 'You can contact Open Future+ on WhatsApp using the public contact link on the site, or start a message with the example number +27 71 234 5678 for demo guidance.';
   if (q.includes('instagram')) return 'You can find Open Future+ on Instagram at @openfutureplus.';
   if (q.includes('facebook')) return 'Open Future+ is also on Facebook, and you can find the link in the social section of the site.';
   if (q.includes('tiktok') || q.includes('tik tok')) return 'Open Future+ is on TikTok too — look for openFuturePlus.';
   if (q.includes('venda') || q.includes('venda')) return 'I am proud to support Open Future+ and help young people connect with culture, identity, and opportunity.';
-  if (q.includes('founder') || q.includes('scott')) return 'Scott Za is part of the Open Future+ journey, and the mission is to help young people grow, learn, and move forward with confidence.';
+  if (q.includes('founder') || q.includes('vuledzani') || q.includes('mutavhatsindi')) return 'Vuledzani Mbangambanga Mutavhatsindi is the founder of Open Future+, and the mission is to help young people grow, learn, and move forward with confidence.';
   if (q.includes('future')) return 'Open Future+ is built to support students and young people with study guidance, funding help, opportunities, and next-step planning.';
   if (q.includes('login') || q.includes('sign up') || q.includes('register')) return 'You can create an account with your email, phone number, and password. For admin access, use the admin credentials provided on the site.';
   if (q.includes('password')) return 'A strong password should include a capital letter, a small letter, a number, and a special character so it is safer.';
@@ -609,7 +856,20 @@ const getAssistantReply = (question) => {
 };
 
 const ensureLoginButton = () => {
-  if (document.getElementById('openAuthButton')) return;
+  const nav = document.querySelector('.nav');
+  if (!nav) return;
+
+  if (readSessionUser()) {
+    const existingButtons = nav.querySelector('.auth-button-group');
+    if (existingButtons) existingButtons.remove();
+    return;
+  }
+
+  const existingButtons = nav.querySelector('.auth-button-group');
+  if (existingButtons) return;
+
+  const buttonGroup = document.createElement('div');
+  buttonGroup.className = 'auth-button-group';
 
   const loginButton = document.createElement('button');
   loginButton.type = 'button';
@@ -617,7 +877,20 @@ const ensureLoginButton = () => {
   loginButton.className = 'account-button';
   loginButton.textContent = 'Login';
   loginButton.addEventListener('click', () => openAuthModal());
-  document.body.appendChild(loginButton);
+
+  const signupButton = document.createElement('button');
+  signupButton.type = 'button';
+  signupButton.id = 'openSignupButton';
+  signupButton.className = 'account-button account-button-secondary';
+  signupButton.textContent = 'Create new';
+  signupButton.addEventListener('click', () => {
+    openAuthModal();
+    setAuthTab('signup');
+  });
+
+  buttonGroup.appendChild(loginButton);
+  buttonGroup.appendChild(signupButton);
+  nav.appendChild(buttonGroup);
 };
 
 const openAuthModal = () => {
@@ -663,13 +936,15 @@ const renderAdminUsers = () => {
         <span>${sanitizeText(user.email)}</span>
       </div>
       <div>
-        <span>${sanitizeText(user.phone)}</span>
+        <span>${sanitizeText(formatPhoneForDisplay(user.phone))}</span>
         <small>${sanitizeText(user.role)}</small>
       </div>
       <div class="mask-password">${user.password ? '••••••••' : 'Not set'}</div>
     </li>
   `).join('');
 };
+
+const getPasswordRequirementsMessage = () => 'Password must include at least 8 characters, 1 uppercase letter, 1 lowercase letter, 1 number, and 1 special character.';
 
 const renderDashboard = () => {
   const currentUser = readSessionUser();
@@ -691,7 +966,7 @@ const renderDashboard = () => {
       <div class="dashboard-header">
         <div>
           <p class="small-heading">ADMIN DASHBOARD</p>
-          <h3>Welcome, ${sanitizeText(currentUser.name)}</h3>
+          <h3>Welcome back, ${sanitizeText(currentUser.name)}</h3>
         </div>
         <button type="button" class="button secondary" id="logoutButton">Logout</button>
       </div>
@@ -719,7 +994,7 @@ const renderDashboard = () => {
         </div>
         <div class="user-card">
           <span>Phone</span>
-          <strong>${sanitizeText(currentUser.phone)}</strong>
+          <strong>${sanitizeText(formatPhoneForDisplay(currentUser.phone))}</strong>
         </div>
         <div class="user-card">
           <span>District</span>
@@ -741,7 +1016,7 @@ const renderDashboard = () => {
       ${unlockReady ? `
         <div class="unlock-box">
           <p>You have reached 50 points and can talk directly with the founder.</p>
-          <a class="button primary" href="https://wa.me/27729990064?text=Hi%20Scott%2C%20I%20have%20reached%2050%20points%20and%20want%20to%20talk%20directly." target="_blank" rel="noopener">Talk to me directly</a>
+          <a class="button primary" href="https://wa.me/27712345678?text=Hi%20Open%20Future%2B%2C%20I%20have%20reached%2050%20points%20and%20want%20to%20talk%20directly." target="_blank" rel="noopener">Talk to me directly</a>
         </div>
       ` : `
         <div class="unlock-box muted">
@@ -755,6 +1030,7 @@ const renderDashboard = () => {
   if (logoutButton) {
     logoutButton.addEventListener('click', () => {
       clearSessionUser();
+      ensureLoginButton();
       renderDashboard();
       showToast('You have been logged out.');
     });
@@ -764,18 +1040,26 @@ const renderDashboard = () => {
 const submitLogin = (event) => {
   event.preventDefault();
 
-  const email = document.getElementById('loginEmail').value.trim().toLowerCase();
-  const phone = normalizePhoneNumber(document.getElementById('loginPhone').value.trim());
+  const primaryContact = parseLoginContact(document.getElementById('loginEmail').value, document.getElementById('loginCountry')?.value || 'ZA');
+  const countryCode = document.getElementById('loginCountry')?.value || 'ZA';
+  const rawPhone = document.getElementById('loginPhone').value.trim();
+  const secondaryContact = parseLoginContact(rawPhone, countryCode);
+  const email = primaryContact.email || secondaryContact.email;
+  const normalizedPhone = primaryContact.phone || secondaryContact.phone;
   const password = document.getElementById('loginPassword').value.trim();
 
-  if (!email || !phone || !password) {
-    showToast('Please enter your email, phone number and password.');
+  if ((!email && !normalizedPhone) || !password) {
+    showToast('Please enter your email or phone number and password.');
     return;
   }
 
   const users = readUsers();
   const foundUser = users.find((user) => {
-    return user.email.toLowerCase() === email && normalizePhoneNumber(user.phone) === phone && user.password === password;
+    const emailMatches = !!email && user.email.toLowerCase() === email;
+    const storedPhone = normalizePhoneForComparison(user.phone, 'ZA');
+    const phoneMatches = !!normalizedPhone && !!storedPhone && storedPhone === normalizedPhone;
+    const passwordMatches = user.password === password;
+    return passwordMatches && (emailMatches || phoneMatches);
   });
 
   if (!foundUser) {
@@ -784,6 +1068,9 @@ const submitLogin = (event) => {
   }
 
   saveSessionUser(foundUser);
+  refreshSessionActivity();
+  const authButtonGroup = document.querySelector('.auth-button-group');
+  if (authButtonGroup) authButtonGroup.remove();
   closeAuthModal();
 
   if (foundUser.role === 'admin') {
@@ -801,29 +1088,33 @@ const submitSignup = (event) => {
 
   const name = document.getElementById('signupName').value.trim();
   const email = document.getElementById('signupEmail').value.trim().toLowerCase();
+  const countryCode = document.getElementById('signupCountry')?.value || 'ZA';
   const rawPhone = document.getElementById('signupPhone').value.trim();
   const district = document.getElementById('signupDistrict').value.trim();
   const school = document.getElementById('signupSchool').value.trim();
   const password = document.getElementById('signupPassword').value.trim();
-  const phone = normalizePhoneNumber(rawPhone);
 
   if (!name || !email || !rawPhone || !district || !school || !password) {
     showToast('Please complete all fields to create your account.');
     return;
   }
 
-  if (rawPhone.replace(/\D/g, '').length !== 9) {
-    showToast('Phone number must contain exactly 9 digits. +27 is added automatically.');
+  const normalizedPhone = normalizePhoneNumber(rawPhone, countryCode);
+
+  if (!normalizedPhone) {
+    showToast('Phone number must be valid for the selected country code.');
     return;
   }
 
+  const phone = normalizedPhone;
+
   if (!isStrongPassword(password)) {
-    showToast('Password must contain at least 1 uppercase letter, 1 lowercase letter, 1 number, and 1 special character.');
+    showToast(getPasswordRequirementsMessage());
     return;
   }
 
   const users = readUsers();
-  const duplicate = users.some((user) => user.email.toLowerCase() === email || normalizePhoneNumber(user.phone) === phone);
+  const duplicate = users.some((user) => user.email.toLowerCase() === email || normalizePhoneForComparison(user.phone, countryCode) === phone);
 
   if (duplicate) {
     showToast('That email or phone number is already registered.');
@@ -846,6 +1137,8 @@ const submitSignup = (event) => {
   users.push(newUser);
   saveUsers(users);
   saveSessionUser(newUser);
+  const authButtonGroup = document.querySelector('.auth-button-group');
+  if (authButtonGroup) authButtonGroup.remove();
   closeAuthModal();
   window.location.href = 'index.html#accountDashboard';
   renderDashboard();
@@ -856,16 +1149,24 @@ const handleForgotPassword = (event) => {
   event.preventDefault();
 
   const contact = document.getElementById('resetContact').value.trim();
-  const normalizedContact = contact.includes('@') ? contact.toLowerCase() : normalizePhoneNumber(contact);
+  const normalizedContact = contact.includes('@') ? contact.toLowerCase() : normalizePhoneForComparison(contact, 'ZA');
   const users = readUsers();
-  const user = users.find((entry) => entry.email.toLowerCase() === normalizedContact.toLowerCase() || normalizePhoneNumber(entry.phone) === normalizedContact);
+  const user = users.find((entry) => {
+    const emailMatches = entry.email.toLowerCase() === normalizedContact.toLowerCase();
+    const phoneMatches = !!normalizedContact && normalizePhoneForComparison(entry.phone, 'ZA') === normalizedContact;
+    return emailMatches || phoneMatches;
+  });
 
   if (!user) {
-    showToast('No account was found with that email or phone number.');
+    showToast('No account was found with that email or phone number. If you forgot your email, use the phone number linked to your account and we will help you recover it.');
     return;
   }
 
-  showToast(`SMS sent to ${user.phone}. Use the password reset code in your demo inbox.`);
+  const message = contact.includes('@')
+    ? `Password reset request received for ${user.email}. Demo reset instructions have been sent.`
+    : `Your email is ${user.email}. Demo reset instructions were sent to your phone ${formatPhoneForDisplay(user.phone)}.`;
+
+  showToast(message);
   document.getElementById('forgotPasswordPanel').classList.add('hidden');
 };
 
@@ -892,12 +1193,18 @@ const setupAuthModal = () => {
 
       <form id="loginForm" class="auth-form">
         <label>
-          Email address
-          <input id="loginEmail" type="email" placeholder="you@example.com" required />
+          Email or phone number
+          <input id="loginEmail" type="text" placeholder="you@example.com or 071 234 5678" />
         </label>
         <label>
-          Phone number
-          <input id="loginPhone" type="tel" inputmode="numeric" maxlength="9" placeholder="712345678" required />
+          Country code (for phone login)
+          <select id="loginCountry">
+            ${PHONE_COUNTRY_OPTIONS.map((option) => `<option value="${option.value}">${option.label}</option>`).join('')}
+          </select>
+        </label>
+        <label>
+          Phone number (optional if using email)
+          <input id="loginPhone" type="tel" inputmode="tel" maxlength="15" placeholder="71 234 5678" />
         </label>
         <label>
           Password
@@ -907,7 +1214,7 @@ const setupAuthModal = () => {
           </div>
         </label>
         <button type="submit" class="button primary">Login</button>
-        <button type="button" class="text-button" id="showResetPanel">Forgot password?</button>
+        <button type="button" class="text-button" id="showResetPanel">Forgot password or email?</button>
       </form>
 
       <form id="signupForm" class="auth-form hidden">
@@ -920,8 +1227,14 @@ const setupAuthModal = () => {
           <input id="signupEmail" type="email" placeholder="you@example.com" required />
         </label>
         <label>
+          Country code
+          <select id="signupCountry">
+            ${PHONE_COUNTRY_OPTIONS.map((option) => `<option value="${option.value}">${option.label}</option>`).join('')}
+          </select>
+        </label>
+        <label>
           Phone number
-          <input id="signupPhone" type="tel" inputmode="numeric" maxlength="9" placeholder="712345678" required />
+          <input id="signupPhone" type="tel" inputmode="tel" maxlength="15" placeholder="71 234 5678" required />
         </label>
         <label>
           District
@@ -937,6 +1250,7 @@ const setupAuthModal = () => {
             <input id="signupPassword" type="password" placeholder="Create a password" required />
             <button type="button" class="password-toggle" data-target="signupPassword">Show</button>
           </div>
+          <small class="password-hint">${getPasswordRequirementsMessage()}</small>
         </label>
         <button type="submit" class="button primary">Create account</button>
       </form>
@@ -976,9 +1290,18 @@ const setupAuthModal = () => {
     const field = document.getElementById(fieldId);
     if (!field) return;
 
-    field.addEventListener('input', (event) => {
-      event.target.value = event.target.value.replace(/\D/g, '').slice(0, 9);
-    });
+    const countryFieldId = fieldId === 'loginPhone' ? 'loginCountry' : 'signupCountry';
+    const updatePhoneField = () => {
+      const countryCode = document.getElementById(countryFieldId)?.value || 'ZA';
+      const digits = field.value.replace(/\D/g, '');
+      field.value = digits.slice(0, getAllowedPhoneDigits(countryCode));
+    };
+
+    field.addEventListener('input', updatePhoneField);
+    const countryField = document.getElementById(countryFieldId);
+    if (countryField) {
+      countryField.addEventListener('change', updatePhoneField);
+    }
   });
 
   modal.addEventListener('click', (event) => {
@@ -1014,7 +1337,7 @@ const renderAdminPage = () => {
           <div class="dashboard-header">
             <div>
               <p class="small-heading">ADMIN CONTROL</p>
-              <h2>Welcome, ${currentUser.name}</h2>
+              <h2>Welcome back, ${ADMIN_NAME}</h2>
             </div>
           </div>
 
@@ -1055,6 +1378,7 @@ const renderAdminPage = () => {
   if (adminLogoutButton) {
     adminLogoutButton.addEventListener('click', () => {
       clearSessionUser();
+      ensureLoginButton();
       window.location.href = 'index.html';
     });
   }
@@ -1111,25 +1435,94 @@ const setupDraggableAssistant = () => {
   const assistantForm = document.getElementById('assistantForm');
   if (!assistantWidget || !assistantPanel || !assistantToggle || !assistantClose || !assistantHeader || !assistantForm) return;
 
+  assistantWidget.style.left = '1.2rem';
+  assistantWidget.style.right = 'auto';
+  assistantWidget.style.bottom = '1.2rem';
+  assistantWidget.style.top = 'auto';
+
   let isDragging = false;
   let offsetX = 0;
   let offsetY = 0;
+  let dragStartX = 0;
+  let dragStartY = 0;
+  let hasMoved = false;
+  let suppressClick = false;
+  let activePointerId = null;
+
+  const clampPosition = (value, min, max) => Math.min(Math.max(value, min), max);
 
   const startDragging = (event) => {
+    if (event.button !== 0) return;
     isDragging = true;
+    hasMoved = false;
+    activePointerId = event.pointerId;
     const rect = assistantWidget.getBoundingClientRect();
     offsetX = event.clientX - rect.left;
     offsetY = event.clientY - rect.top;
+    dragStartX = event.clientX;
+    dragStartY = event.clientY;
     assistantWidget.setPointerCapture?.(event.pointerId);
+    assistantHeader.style.cursor = 'grabbing';
+  };
+
+  const stopDragging = () => {
+    isDragging = false;
+    activePointerId = null;
+    assistantHeader.style.cursor = 'grab';
+  };
+
+  const updateWidgetPosition = (x, y) => {
+    const maxLeft = Math.max(12, window.innerWidth - assistantWidget.offsetWidth - 12);
+    const maxTop = Math.max(12, window.innerHeight - assistantWidget.offsetHeight - 12);
+
+    assistantWidget.style.left = `${clampPosition(x, 12, maxLeft)}px`;
+    assistantWidget.style.top = `${clampPosition(y, 12, maxTop)}px`;
+    assistantWidget.style.right = 'auto';
+    assistantWidget.style.bottom = 'auto';
   };
 
   assistantToggle.addEventListener('pointerdown', (event) => {
-    if (!assistantPanel.classList.contains('open')) {
-      startDragging(event);
-    }
+    if (event.button !== 0) return;
+    startDragging(event);
   });
 
-  assistantToggle.addEventListener('click', () => {
+  assistantToggle.addEventListener('pointermove', (event) => {
+    if (!isDragging || event.pointerId !== activePointerId) return;
+
+    const dx = Math.abs(event.clientX - dragStartX);
+    const dy = Math.abs(event.clientY - dragStartY);
+    if (dx > 6 || dy > 6) hasMoved = true;
+
+    const nextLeft = event.clientX - offsetX;
+    const nextTop = event.clientY - offsetY;
+    updateWidgetPosition(nextLeft, nextTop);
+  });
+
+  assistantToggle.addEventListener('pointerup', (event) => {
+    if (!isDragging || event.pointerId !== activePointerId) return;
+
+    const moved = hasMoved;
+    stopDragging();
+
+    if (moved) {
+      suppressClick = true;
+      return;
+    }
+
+    assistantPanel.classList.toggle('open');
+  });
+
+  assistantToggle.addEventListener('pointercancel', () => {
+    stopDragging();
+  });
+
+  assistantToggle.addEventListener('click', (event) => {
+    if (suppressClick) {
+      suppressClick = false;
+      event.preventDefault();
+      event.stopPropagation();
+      return;
+    }
     assistantPanel.classList.toggle('open');
   });
 
@@ -1140,31 +1533,32 @@ const setupDraggableAssistant = () => {
   assistantHeader.addEventListener('pointerdown', (event) => {
     if (event.target.closest('.assistant-close')) return;
     startDragging(event);
-    assistantHeader.style.cursor = 'grabbing';
   });
 
   assistantHeader.addEventListener('pointermove', (event) => {
-    if (!isDragging) return;
+    if (!isDragging || event.pointerId !== activePointerId) return;
+
+    const dx = Math.abs(event.clientX - dragStartX);
+    const dy = Math.abs(event.clientY - dragStartY);
+    if (dx > 6 || dy > 6) hasMoved = true;
 
     const nextLeft = event.clientX - offsetX;
     const nextTop = event.clientY - offsetY;
-    const maxLeft = window.innerWidth - assistantWidget.offsetWidth - 12;
-    const maxTop = window.innerHeight - assistantWidget.offsetHeight - 12;
-
-    assistantWidget.style.left = `${Math.max(12, Math.min(nextLeft, maxLeft))}px`;
-    assistantWidget.style.top = `${Math.max(12, Math.min(nextTop, maxTop))}px`;
-    assistantWidget.style.right = 'auto';
-    assistantWidget.style.bottom = 'auto';
+    updateWidgetPosition(nextLeft, nextTop);
   });
 
-  assistantHeader.addEventListener('pointerup', () => {
-    isDragging = false;
-    assistantHeader.style.cursor = 'grab';
+  assistantHeader.addEventListener('pointerup', (event) => {
+    if (!isDragging || event.pointerId !== activePointerId) return;
+    const moved = hasMoved;
+    stopDragging();
+    if (moved) {
+      suppressClick = true;
+    }
   });
 
   assistantHeader.addEventListener('pointerleave', () => {
-    isDragging = false;
-    assistantHeader.style.cursor = 'grab';
+    if (!isDragging) return;
+    stopDragging();
   });
 
   assistantForm.addEventListener('submit', (event) => {
@@ -1186,6 +1580,31 @@ const setupDraggableAssistant = () => {
 if (year) {
   year.textContent = new Date().getFullYear();
 }
+
+setInterval(() => {
+  const sessionUser = readSessionUser();
+  if (!sessionUser) return;
+
+  try {
+    const tokenBody = sessionUser.token.split('.')[0];
+    const payload = JSON.parse(decodeURIComponent(atob(tokenBody)));
+    if (Date.now() >= payload.exp) {
+      clearSessionUser();
+      if (window.location.pathname.toLowerCase().endsWith('/admin.html')) {
+        window.location.replace('index.html');
+      }
+      showToast('Your session expired after 20 minutes of inactivity. Please log in again.');
+    }
+  } catch {
+    clearSessionUser();
+  }
+}, 15000);
+
+['pointerdown', 'keydown', 'click', 'mousemove'].forEach((eventName) => {
+  document.addEventListener(eventName, () => {
+    refreshSessionActivity();
+  }, { passive: true });
+});
 
 if (menuButton && navLinks) {
   menuButton.addEventListener('click', () => {
@@ -1219,18 +1638,83 @@ document.addEventListener('click', (event) => {
 });
 
 if (apsForm) {
+  ensureApsRows();
+
+  const addSubjectButton = document.getElementById('addApsSubject');
+  if (addSubjectButton) {
+    addSubjectButton.addEventListener('click', addApsSubjectRow);
+  }
+
+  const apsSubjectRows = document.getElementById('apsSubjectRows');
+  if (apsSubjectRows) {
+    apsSubjectRows.addEventListener('click', (event) => {
+      const removeButton = event.target.closest('.remove-aps-subject');
+      if (!removeButton) return;
+
+      const row = removeButton.closest('.aps-subject-row');
+      if (row) {
+        row.remove();
+        const remainingRows = apsSubjectRows.querySelectorAll('.aps-subject-row');
+        remainingRows.forEach((item, index) => {
+          const label = item.querySelector('label');
+          if (label) {
+            label.textContent = `Subject ${index + 1}`;
+          }
+        });
+      }
+    });
+  }
+
   apsForm.addEventListener('submit', (event) => {
     event.preventDefault();
 
     const resultBox = document.getElementById('apsResult');
-    const levels = [
-      resolveAchievementLevel(document.getElementById('percentage1'), document.getElementById('level1')),
-      resolveAchievementLevel(document.getElementById('percentage2'), document.getElementById('level2')),
-      resolveAchievementLevel(document.getElementById('percentage3'), document.getElementById('level3')),
-    ];
+    const rows = document.querySelectorAll('.aps-subject-row');
 
-    const total = levels.reduce((sum, score) => sum + score, 0);
-    resultBox.textContent = `Your APS score is ${total}. This is a quick estimate based on the values entered.`;
+    if (!rows.length) {
+      showToast('Add at least one subject to calculate your APS.');
+      return;
+    }
+
+    let total = 0;
+    let excludedCount = 0;
+
+    try {
+      rows.forEach((row, index) => {
+        const subjectInput = row.querySelector('.aps-subject');
+        const markInput = row.querySelector('.aps-mark');
+        const levelSelect = row.querySelector('.aps-level');
+
+        if (!subjectInput || !markInput || !levelSelect) return;
+
+        const subjectName = subjectInput.value.trim();
+        const rawMark = markInput.value.trim();
+        const markValue = rawMark === '' ? 0 : Number(rawMark);
+
+        if (!subjectName) {
+          throw new Error(`Please enter a subject name for subject ${index + 1}.`);
+        }
+
+        if (rawMark !== '' && (Number.isNaN(markValue) || markValue < 0 || markValue > 100)) {
+          throw new Error(`Subject ${index + 1} has an invalid mark. Use a value from 0 to 100.`);
+        }
+
+        if (isLifeOrientationSubject(subjectName)) {
+          excludedCount += 1;
+          return;
+        }
+
+        total += resolveAchievementLevel({ value: markValue }, { value: levelSelect.value || 0 });
+      });
+
+      const excludeMessage = excludedCount > 0
+        ? ' Life Orientation was excluded from this APS total.'
+        : '';
+
+      resultBox.textContent = `Your APS score is ${total}.${excludeMessage} This is a quick estimate based on the values entered.`;
+    } catch (error) {
+      showToast(error.message || 'Please complete the APS form correctly.');
+    }
   });
 }
 
