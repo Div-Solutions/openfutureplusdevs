@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://openfutureplus.co.za/sitemap.xml
