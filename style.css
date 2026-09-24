@@ -810,6 +810,52 @@ img[alt*="Netlify"],
   padding: 1.5rem;
 }
 
+.dashboard-tools {
+  margin-top: 1.8rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--line);
+}
+
+.dashboard-tools-heading h4 {
+  margin: 0 0 1rem;
+  font-size: 1.3rem;
+}
+
+.dashboard-tool-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.8rem;
+}
+
+.dashboard-tool {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  min-height: 104px;
+  padding: 1rem;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: rgba(255,255,255,0.03);
+  color: var(--text);
+  text-align: left;
+  cursor: pointer;
+}
+
+.dashboard-tool:hover,
+.dashboard-tool:focus-visible {
+  border-color: rgba(245, 200, 76, 0.5);
+  background: rgba(31, 111, 255, 0.1);
+}
+
+.dashboard-tool span {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.dashboard-tool-button {
+  font: inherit;
+}
+
 .dashboard-header {
   display: flex;
   align-items: center;
@@ -1066,6 +1112,46 @@ img[alt*="Netlify"],
   border: 1px solid rgba(31, 111, 255, 0.2);
   color: var(--text);
   font-weight: 600;
+}
+
+.result-box > strong {
+  display: block;
+  color: var(--secondary);
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+}
+
+.result-box p {
+  margin: 0.7rem 0 0;
+  color: var(--muted);
+  font-weight: 400;
+}
+
+.aps-breakdown {
+  display: grid;
+  gap: 0.45rem;
+  margin-top: 1rem;
+}
+
+.aps-breakdown-row {
+  display: grid;
+  grid-template-columns: 1.2fr 1.5fr auto;
+  gap: 0.75rem;
+  align-items: center;
+  padding: 0.65rem 0.75rem;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.04);
+  color: var(--text);
+  font-size: 0.9rem;
+}
+
+.aps-breakdown-row span:nth-child(2) {
+  color: var(--muted);
+}
+
+.aps-breakdown-row strong {
+  color: var(--secondary);
+  white-space: nowrap;
 }
 
 .opportunities-section {
@@ -1458,6 +1544,17 @@ img[alt*="Netlify"],
     width: 100%;
   }
 
+  .logo {
+    min-width: 0;
+    flex: 1;
+    white-space: nowrap;
+  }
+
+  .menu-button {
+    flex: 0 0 46px;
+    order: 2;
+  }
+
   .nav-links {
     position: absolute;
     top: calc(100% + 0.5rem);
@@ -1473,6 +1570,7 @@ img[alt*="Netlify"],
     border: 1px solid var(--line);
     margin-left: 0;
     width: 100%;
+    z-index: 1200;
   }
 
   .nav-links.open {
@@ -1480,7 +1578,10 @@ img[alt*="Netlify"],
   }
 
   .auth-button-group {
+    order: 3;
     margin-left: 0;
+    padding-left: 0;
+    gap: 0.4rem;
   }
 
   .account-button {
@@ -1488,6 +1589,18 @@ img[alt*="Netlify"],
     top: auto;
     right: auto;
     margin-left: 0;
+    min-height: 44px;
+    padding: 0.65rem 0.75rem;
+    font-size: 0.8rem;
+  }
+
+  .dashboard-tool-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .aps-breakdown-row {
+    grid-template-columns: 1fr;
+    gap: 0.15rem;
   }
 
   .user-card-grid,
@@ -1541,5 +1654,14 @@ img[alt*="Netlify"],
   .social-icon {
     width: 52px;
     height: 52px;
+  }
+
+  .assistant-widget {
+    left: 0.75rem;
+    bottom: 0.75rem;
+  }
+
+  .assistant-panel {
+    width: min(340px, calc(100vw - 1.5rem));
   }
 }

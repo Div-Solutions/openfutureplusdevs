@@ -1,6 +1,6 @@
 const supabaseUrl = 'https://bsrmyybqpkcukcavkzzl.supabase.co';
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJzcm15eWJxcGtjdWtjYXZrenpsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTAxNjU4MTUsImV4cCI6MjEwNTc0MTgxNX0.0ZxEkNlZjTcQUqyjgYhPoMCG86iueq--IzSLeRGqOO8';
-const supabase = window.supabase && typeof window.supabase.createClient === 'function'
+const supabaseClient = window.supabase && typeof window.supabase.createClient === 'function'
   ? window.supabase.createClient(supabaseUrl, supabaseKey)
   : null;
 
@@ -43,7 +43,7 @@ const createSessionToken = (user) => {
     exp: Date.now() + SESSION_TIMEOUT_MS,
   };
 
-  return btoa(encodeURIComponent(JSON.stringify(payload)) + '.' + SECURITY_SECRET);
+  return `${btoa(encodeURIComponent(JSON.stringify(payload)))}.${SECURITY_SECRET}`;
 };
 
 const isValidSessionToken = (sessionUser) => {
@@ -493,12 +493,12 @@ const isLifeOrientationSubject = (subjectName = '') => {
   return normalized === 'life orientation' || normalized === 'life orient' || normalized === 'lo' || normalized.includes('life orientation') || normalized.includes('life orient');
 };
 
-const buildApsLevelOptions = (selectedValue = '0') => {
-  const options = ['0', '1', '2', '3', '4', '5', '6', '7'];
+const buildApsLevelOptions = (selectedValue = '1') => {
+  const options = ['1', '2', '3', '4', '5', '6', '7'];
   return options.map((value) => `<option value="${value}" ${value === String(selectedValue) ? 'selected' : ''}>${value}</option>`).join('');
 };
 
-const createApsSubjectRow = (index, subjectName = '', percentageValue = '', selectedLevel = '0') => {
+const createApsSubjectRow = (index, subjectName = '', percentageValue = '', selectedLevel = '1') => {
   const row = document.createElement('div');
   row.className = 'aps-subject-row';
   row.innerHTML = `
@@ -533,7 +533,7 @@ const ensureApsRows = () => {
 
   const defaults = ['English', 'Mathematics', 'Life Orientation'];
   defaults.forEach((subject, index) => {
-    const row = createApsSubjectRow(index + 1, subject, '', '0');
+    const row = createApsSubjectRow(index + 1, subject, '', '1');
     container.appendChild(row);
   });
 };
@@ -630,17 +630,20 @@ const saveUsers = (users) => {
 
 const readSessionUser = () => {
   try {
-    const sessionUser = JSON.parse(sessionStorage.getItem(SESSION_KEY) || 'null');
+    const storedSession = sessionStorage.getItem(SESSION_KEY) || localStorage.getItem(SESSION_KEY);
+    const sessionUser = JSON.parse(storedSession || 'null');
     if (!sessionUser) return null;
 
     if (!isValidSessionToken(sessionUser)) {
       sessionStorage.removeItem(SESSION_KEY);
+      localStorage.removeItem(SESSION_KEY);
       return null;
     }
 
     return sessionUser;
   } catch {
     sessionStorage.removeItem(SESSION_KEY);
+    localStorage.removeItem(SESSION_KEY);
     return null;
   }
 };
@@ -651,10 +654,12 @@ const saveSessionUser = (user) => {
     token: createSessionToken(user),
   };
   sessionStorage.setItem(SESSION_KEY, JSON.stringify(secureUser));
+  localStorage.setItem(SESSION_KEY, JSON.stringify(secureUser));
 };
 
 const clearSessionUser = () => {
   sessionStorage.removeItem(SESSION_KEY);
+  localStorage.removeItem(SESSION_KEY);
 };
 
 const refreshSessionActivity = () => {
@@ -667,6 +672,7 @@ const refreshSessionActivity = () => {
   };
 
   sessionStorage.setItem(SESSION_KEY, JSON.stringify(refreshedUser));
+  localStorage.setItem(SESSION_KEY, JSON.stringify(refreshedUser));
 };
 
 const enforceSessionTimeout = () => {
@@ -930,16 +936,14 @@ const renderTutCourses = () => {
   const list = document.getElementById('tutCourseList');
   if (!list) return;
 
-  list.innerHTML = TUT_COURSES.map((course) => `
+  list.innerHTML = `
     <article class="tut-course-card">
-      <span class="tut-course-tag">TUT course</span>
-      <h3>${course.name}</h3>
-      <p><strong>APS:</strong> ${course.aps}</p>
-      <p><strong>Suggested subjects:</strong> ${course.subjects}</p>
-      <p><strong>Career paths:</strong> ${course.careers.join(', ')}</p>
-      <p><strong>Requirements:</strong> ${course.requirements}</p>
+      <span class="tut-course-tag">Verified data required</span>
+      <h3>Programme requirements unavailable</h3>
+      <p>Official TUT prospectus requirements for the selected intake year are not included in this site's verified dataset.</p>
+      <p>Use the official TUT prospectus or admissions office to confirm each programme's APS, subject, language, and additional requirements.</p>
     </article>
-  `).join('');
+  `;
 };
 
 const renderJobListings = () => {
@@ -1185,6 +1189,23 @@ const renderDashboard = () => {
           <p>Check the site buttons and actions to earn +1 credit each time. You need 50 points to unlock direct chat access.</p>
         </div>
       `}
+      <section class="dashboard-tools" aria-labelledby="dashboardToolsHeading">
+        <div class="dashboard-tools-heading">
+          <p class="small-heading">STUDENT TOOLS</p>
+          <h4 id="dashboardToolsHeading">Keep moving forward</h4>
+        </div>
+        <div class="dashboard-tool-grid">
+          <a class="dashboard-tool" href="aps-calculator.html"><strong>APS Calculator</strong><span>Calculate points from your subject marks.</span></a>
+          <a class="dashboard-tool" href="tut-checker.html"><strong>TUT Course Checker</strong><span>Review your subjects and verified-data status.</span></a>
+          <a class="dashboard-tool" href="opportunities.html"><strong>Opportunities &amp; Jobs</strong><span>Find funding, jobs, and career options.</span></a>
+          <a class="dashboard-tool" href="resources.html"><strong>Study Resources</strong><span>Browse subject notes and revision material.</span></a>
+          <a class="dashboard-tool" href="resources.html#question-papers"><strong>Question Papers</strong><span>Use practice papers to prepare.</span></a>
+          <a class="dashboard-tool" href="quiz.html"><strong>Quizzes</strong><span>Test your knowledge and build confidence.</span></a>
+          <a class="dashboard-tool" href="contact.html"><strong>CV Builder</strong><span>Get support preparing your CV.</span></a>
+          <a class="dashboard-tool" href="contact.html"><strong>Student Support</strong><span>Ask for help with your next step.</span></a>
+          <button class="dashboard-tool dashboard-tool-button" type="button" data-open-assistant><strong>AI Assistant</strong><span>Ask about study, APS, TUT, or opportunities.</span></button>
+        </div>
+      </section>
     `;
   }
 
@@ -1197,6 +1218,13 @@ const renderDashboard = () => {
       showToast('You have been logged out.');
     });
   }
+
+  body.querySelectorAll('[data-open-assistant]').forEach((button) => {
+    button.addEventListener('click', () => {
+      const assistantToggle = document.getElementById('assistantToggle');
+      if (assistantToggle) assistantToggle.click();
+    });
+  });
 };
 
 const submitLogin = (event) => {
@@ -1623,7 +1651,7 @@ const setupDraggableAssistant = () => {
     offsetY = event.clientY - rect.top;
     dragStartX = event.clientX;
     dragStartY = event.clientY;
-    assistantWidget.setPointerCapture?.(event.pointerId);
+    event.currentTarget?.setPointerCapture?.(event.pointerId);
     assistantHeader.style.cursor = 'grabbing';
   };
 
@@ -1668,10 +1696,7 @@ const setupDraggableAssistant = () => {
 
     if (moved) {
       suppressClick = true;
-      return;
     }
-
-    assistantPanel.classList.toggle('open');
   });
 
   assistantToggle.addEventListener('pointercancel', () => {
@@ -1770,12 +1795,16 @@ setInterval(() => {
 
 if (menuButton && navLinks) {
   menuButton.addEventListener('click', () => {
-    navLinks.classList.toggle('open');
+    const isOpen = navLinks.classList.toggle('open');
+    menuButton.setAttribute('aria-expanded', String(isOpen));
+    menuButton.setAttribute('aria-label', isOpen ? 'Close menu' : 'Open menu');
   });
 
   navLinks.querySelectorAll('a').forEach((link) => {
     link.addEventListener('click', () => {
       navLinks.classList.remove('open');
+      menuButton.setAttribute('aria-expanded', 'false');
+      menuButton.setAttribute('aria-label', 'Open menu');
     });
   });
 }
@@ -1840,6 +1869,7 @@ if (apsForm) {
 
     let total = 0;
     let excludedCount = 0;
+    const breakdown = [];
 
     try {
       rows.forEach((row, index) => {
@@ -1863,17 +1893,33 @@ if (apsForm) {
 
         if (isLifeOrientationSubject(subjectName)) {
           excludedCount += 1;
+          breakdown.push({ subjectName, markValue: rawMark || 'Not entered', level: 'Excluded', points: 0 });
           return;
         }
 
-        total += resolveAchievementLevel({ value: markValue }, { value: levelSelect.value || 0 });
+        const points = rawMark === ''
+          ? Number(levelSelect.value || 1)
+          : percentageToLevel(markValue);
+        total += points;
+        breakdown.push({ subjectName, markValue: rawMark || 'Not entered', level: levelSelect.value || '0', points });
       });
 
       const excludeMessage = excludedCount > 0
         ? ' Life Orientation was excluded from this APS total.'
         : '';
 
-      resultBox.textContent = `Your APS score is ${total}.${excludeMessage} This is a quick estimate based on the values entered.`;
+      resultBox.innerHTML = `
+        <strong>Total APS: ${total}</strong>
+        <p>Points use the South African achievement scale: 80-100 = 7, 70-79 = 6, 60-69 = 5, 50-59 = 4, 40-49 = 3, 30-39 = 2, and 0-29 = 1. A selected level is used when no mark is entered.</p>
+        <div class="aps-breakdown">${breakdown.map((item) => `
+          <div class="aps-breakdown-row">
+            <span>${sanitizeText(item.subjectName)}</span>
+            <span>Mark: ${sanitizeText(item.markValue)} | Level: ${sanitizeText(item.level)}</span>
+            <strong>${item.points} point${item.points === 1 ? '' : 's'}</strong>
+          </div>
+        `).join('')}</div>
+        <p>${excludeMessage} Confirm the final admission calculation with the official TUT prospectus for your programme and intake year.</p>
+      `;
     } catch (error) {
       showToast(error.message || 'Please complete the APS form correctly.');
     }
@@ -1884,44 +1930,16 @@ if (tutForm) {
   tutForm.addEventListener('submit', (event) => {
     event.preventDefault();
 
-    const score = Number(document.getElementById('tutScore').value);
-    const course = document.getElementById('tutCourse').value;
     const resultBox = document.getElementById('tutResult');
+    const yearValue = document.getElementById('tutYear')?.value || 'selected year';
+    const enteredSubjects = [...document.querySelectorAll('.tut-subject')]
+      .map((input) => input.value.trim())
+      .filter(Boolean);
+    const enteredMarks = [...document.querySelectorAll('.tut-mark')]
+      .map((input) => input.value.trim())
+      .filter(Boolean);
 
-    const courseMatches = {
-      informatics: {
-        match: 'Information Technology, Computer Science, or related IT programmes',
-        career: 'Software developer, database support, technical support, network assistant'
-      },
-      business: {
-        match: 'Business Management, Marketing, Accounting, or related commerce programmes',
-        career: 'Business analyst, sales coordinator, office administrator, junior accountant'
-      },
-      engineering: {
-        match: 'Civil, Electrical, Mechanical, or related engineering programmes',
-        career: 'Site technician, project assistant, technical drafter, maintenance support'
-      },
-      education: {
-        match: 'Education, teaching, or foundation learning programmes',
-        career: 'Teacher, learning support assistant, education facilitator, youth mentor'
-      },
-      tourism: {
-        match: 'Tourism Management and hospitality-related programmes',
-        career: 'Travel assistant, event coordinator, tour guide, front office support'
-      },
-      nursing: {
-        match: 'Nursing, health sciences, or healthcare support programmes',
-        career: 'Clinic support, nursing assistant, community health worker, patient support'
-      }
-    };
-
-    const selected = courseMatches[course] || courseMatches.business;
-
-    if (score >= 30) {
-      resultBox.textContent = `Good match: your score suggests you may qualify for ${selected.match}. Potential career paths include ${selected.career}. Always confirm with the official TUT prospectus.`;
-    } else {
-      resultBox.textContent = `This score is lower than the typical minimum for ${selected.match}, but you may still explore alternative study options, bridging routes, or foundation programmes. Career paths may include ${selected.career}.`;
-    }
+    resultBox.innerHTML = `<strong>Qualification status: Information unavailable</strong><p>No verified TUT prospectus data for ${sanitizeText(yearValue)} is available in this site dataset. The checker cannot safely determine whether any programme is qualified or not qualified.</p><p>Information entered: ${enteredSubjects.length} subject(s), ${enteredMarks.length} mark(s). Check each programme's official TUT prospectus and admissions office for the current subject, APS, and language requirements.</p>`;
   });
 }
 
@@ -1964,16 +1982,7 @@ if (employerForm) {
 window.addEventListener('load', keepPageAtTop);
 window.addEventListener('beforeunload', keepPageAtTop);
 
-const enforceBrowserSecurity = () => {
-  if (window.location.protocol === 'file:') {
-    document.body.innerHTML = '<main style="padding:2rem;color:white;background:#08131d;font-family:sans-serif;"><h1>Access denied</h1><p>This website must be served over HTTP/HTTPS, not opened as a local file.</p></main>';
-    throw new Error('Direct file access is forbidden for security reasons.');
-  }
-};
-
 try {
-  enforceBrowserSecurity();
-
   if (document.getElementById('subjectResourceList')) {
     renderSubjectResources();
   }
