@@ -71,6 +71,36 @@
         </div>
       </section>
 
+      <section class="section alt-tool">
+        <div class="container">
+          <div class="location-search-panel">
+            <p class="small-heading">FIND OPPORTUNITIES NEAR YOU</p>
+            <h2>📍 Where are you located?</h2>
+            <div class="location-search-grid">
+              <label>
+                <span>Suburb</span>
+                <input id="userSuburbInput" type="text" placeholder="Enter your suburb" aria-label="Enter your suburb" />
+              </label>
+              <label>
+                <span>City</span>
+                <input id="userCityInput" type="text" placeholder="City (optional)" aria-label="City (optional)" />
+              </label>
+              <label>
+                <span>Province</span>
+                <input id="userProvinceInput" type="text" placeholder="Province (optional)" aria-label="Province (optional)" />
+              </label>
+            </div>
+            <div class="location-search-actions">
+              <button id="findNearbyJobsButton" type="button" class="button">Find Jobs Near Me</button>
+              <button id="browseAllOpportunitiesButton" type="button" class="button secondary">Browse All Opportunities</button>
+            </div>
+            <p class="search-hint">e.g. Soshanguve, Soweto, Midrand, Tembisa, Mamelodi, Centurion</p>
+          </div>
+
+          <div id="nearbyOpportunityResults" aria-live="polite"></div>
+        </div>
+      </section>
+
       <section id="job-search" class="section alt-tool">
         <div class="container">
           <div class="section-heading">
@@ -91,6 +121,17 @@
           </div>
 
           <div id="jobListings" class="job-list"></div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container">
+          <div class="section-heading">
+            <p class="small-heading">MORE PLACES TO FIND OPPORTUNITIES</p>
+            <h2>🔎 More Places to Find Opportunities</h2>
+            <p>Explore additional legitimate places to search for jobs, learnerships, internships, graduate roles, and career support.</p>
+          </div>
+          <div id="morePlacesList" class="resource-grid"></div>
         </div>
       </section>
     </main>

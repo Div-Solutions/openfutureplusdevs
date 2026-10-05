@@ -280,72 +280,551 @@ const JOB_PORTALS = [
     url: 'https://www.careers24.com/',
     type: 'General jobs',
     radiusKm: 100,
-    requirements: 'CV, ID, qualifications, and contact details.'
+    requirements: 'CV, ID, qualifications, and contact details.',
+    source: 'Open Future+ verified listing',
+    location: 'South Africa',
+    city: 'South Africa',
+    province: 'National',
+    suburb: 'National',
+    remote: false,
+    southAfricaWide: true,
+    verified: true
   },
   {
     name: 'PNet',
     url: 'https://www.pnet.co.za/',
     type: 'Professional jobs',
     radiusKm: 80,
-    requirements: 'Updated CV, work experience, and qualifications.'
+    requirements: 'Updated CV, work experience, and qualifications.',
+    source: 'Recruitment Platform',
+    location: 'Johannesburg',
+    city: 'Johannesburg',
+    province: 'Gauteng',
+    suburb: 'Johannesburg',
+    remote: false,
+    southAfricaWide: true,
+    verified: false
   },
   {
     name: 'JobStreet South Africa',
     url: 'https://www.jobstreet.co.za/',
     type: 'Employment listings',
     radiusKm: 60,
-    requirements: 'CV, ID, and a short profile summary.'
+    requirements: 'CV, ID, and a short profile summary.',
+    source: 'Recruitment Platform',
+    location: 'Pretoria',
+    city: 'Pretoria',
+    province: 'Gauteng',
+    suburb: 'Pretoria Central',
+    remote: false,
+    southAfricaWide: true,
+    verified: false
   },
   {
     name: 'LinkedIn Jobs',
     url: 'https://www.linkedin.com/jobs/',
     type: 'Corporate roles',
     radiusKm: 120,
-    requirements: 'Professional profile, CV, and work history.'
+    requirements: 'Professional profile, CV, and work history.',
+    source: 'Company Careers',
+    location: 'Remote',
+    city: 'Remote',
+    province: 'Remote',
+    suburb: 'Remote',
+    remote: true,
+    southAfricaWide: true,
+    verified: false
   },
   {
     name: 'Government Vacancies',
     url: 'https://www.gov.za/',
     type: 'Public sector',
     radiusKm: 150,
-    requirements: 'Certified qualifications, ID, and relevant supporting documents.'
+    requirements: 'Certified qualifications, ID, and relevant supporting documents.',
+    source: 'DPSA',
+    location: 'Pretoria',
+    city: 'Pretoria',
+    province: 'Gauteng',
+    suburb: 'Pretoria',
+    remote: false,
+    southAfricaWide: true,
+    verified: true
   },
   {
     name: 'Gumtree Jobs',
     url: 'https://www.gumtree.co.za/',
     type: 'Entry-level and casual jobs',
     radiusKm: 50,
-    requirements: 'CV, ID, and availability confirmation.'
+    requirements: 'CV, ID, and availability confirmation.',
+    source: 'Community listing',
+    location: 'Cape Town',
+    city: 'Cape Town',
+    province: 'Western Cape',
+    suburb: 'Cape Town Central',
+    remote: false,
+    southAfricaWide: true,
+    verified: false
   },
   {
     name: 'Woolworths Careers',
     url: 'https://www.woolworthsholdings.co.za/careers/',
     type: 'Retail and admin',
     radiusKm: 30,
-    requirements: 'CV, ID, matric certificate, and work availability.'
+    requirements: 'CV, ID, matric certificate, and work availability.',
+    source: 'Company Careers',
+    location: 'Cape Town',
+    city: 'Cape Town',
+    province: 'Western Cape',
+    suburb: 'Cape Town',
+    remote: false,
+    southAfricaWide: true,
+    verified: true
   },
   {
     name: 'Shoprite Careers',
     url: 'https://www.shoprite.jobs/',
     type: 'Retail and support roles',
     radiusKm: 25,
-    requirements: 'CV, ID, work references, and availability.'
+    requirements: 'CV, ID, work references, and availability.',
+    source: 'Company Careers',
+    location: 'Johannesburg',
+    city: 'Johannesburg',
+    province: 'Gauteng',
+    suburb: 'Johannesburg',
+    remote: false,
+    southAfricaWide: true,
+    verified: true
   },
   {
     name: 'MTN Careers',
     url: 'https://www.mtn.co.za/careers/',
     type: 'Telecommunications',
     radiusKm: 90,
-    requirements: 'CV, qualifications, and relevant experience if required.'
+    requirements: 'CV, qualifications, and relevant experience if required.',
+    source: 'Company Careers',
+    location: 'Sandton',
+    city: 'Johannesburg',
+    province: 'Gauteng',
+    suburb: 'Sandton',
+    remote: false,
+    southAfricaWide: true,
+    verified: true
   },
   {
     name: 'Nedbank Careers',
     url: 'https://careers.nedbank.co.za/',
     type: 'Banking and finance',
     radiusKm: 70,
-    requirements: 'Updated CV, qualifications, and clear communication skills.'
+    requirements: 'Updated CV, qualifications, and clear communication skills.',
+    source: 'Company Careers',
+    location: 'Johannesburg',
+    city: 'Johannesburg',
+    province: 'Gauteng',
+    suburb: 'Sandton',
+    remote: false,
+    southAfricaWide: true,
+    verified: true
   }
 ];
+
+const OPPORTUNITY_RESOURCES = [
+  {
+    name: 'DPSA Vacancies',
+    description: 'Government and public-sector vacancies for students, graduates, and professionals.',
+    category: '🏛 Government',
+    locationCoverage: 'South Africa',
+    url: 'https://www.dpsa.gov.za/'
+  },
+  {
+    name: 'SAYouth.mobi',
+    description: 'Youth employment and learning opportunities, programmes, and support listings.',
+    category: '💼 Jobs',
+    locationCoverage: 'South Africa',
+    url: 'https://sayouth.mobi/'
+  },
+  {
+    name: 'Seta Vacancies',
+    description: 'Sector education and training opportunities from accredited SETA providers.',
+    category: '🎓 Learnerships',
+    locationCoverage: 'South Africa',
+    url: 'https://www.skillsportal.co.za/'
+  },
+  {
+    name: 'Remotasks / Remote Jobs',
+    description: 'Remote and online work opportunities for flexible digital and support roles.',
+    category: '💻 Remote Jobs',
+    locationCoverage: 'Remote',
+    url: 'https://www.remote.co/'
+  },
+  {
+    name: 'CareerJunction',
+    description: 'Browse career and corporate opportunities in multiple South African cities.',
+    category: '💼 Jobs',
+    locationCoverage: 'South Africa',
+    url: 'https://www.careerjunction.co.za/'
+  },
+  {
+    name: 'Indeed South Africa',
+    description: 'Search for jobs, internships, and graduate roles across the country.',
+    category: '💼 Jobs',
+    locationCoverage: 'South Africa',
+    url: 'https://za.indeed.com/'
+  },
+  {
+    name: 'Youth Employment Service',
+    description: 'Structured entry-level work and youth development opportunities.',
+    category: '🎓 Internships',
+    locationCoverage: 'South Africa',
+    url: 'https://www.yes4youth.co.za/'
+  },
+  {
+    name: 'Free Courses / FutureLearn',
+    description: 'Short online courses and career-building learning resources.',
+    category: '📚 Free Courses',
+    locationCoverage: 'Online',
+    url: 'https://www.futurelearn.com/'
+  }
+];
+
+const OPPORTUNITY_STORAGE_KEY = 'openfuture_custom_opportunities_v1';
+
+const normalizeLocationText = (value) => String(value ?? '')
+  .toLowerCase()
+  .replace(/[^a-z0-9\s]/g, ' ')
+  .replace(/\s+/g, ' ')
+  .trim();
+
+const getStoredOpportunityRecords = () => {
+  try {
+    const storageValue = localStorage.getItem(OPPORTUNITY_STORAGE_KEY);
+    const parsed = storageValue ? JSON.parse(storageValue) : [];
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return [];
+  }
+};
+
+const saveStoredOpportunityRecords = (records) => {
+  localStorage.setItem(OPPORTUNITY_STORAGE_KEY, JSON.stringify(records));
+};
+
+const normalizeOpportunityLinks = (item) => {
+  const urls = [];
+  const rawLinks = [];
+
+  if (Array.isArray(item?.applicationUrls)) {
+    rawLinks.push(...item.applicationUrls);
+  }
+  if (Array.isArray(item?.sourceUrls)) {
+    rawLinks.push(...item.sourceUrls);
+  }
+  if (item?.applicationUrl) rawLinks.push(item.applicationUrl);
+  if (item?.sourceUrl) rawLinks.push(item.sourceUrl);
+  if (item?.url) rawLinks.push(item.url);
+
+  rawLinks.forEach((link) => {
+    if (!link || typeof link !== 'string') return;
+    const trimmed = link.trim();
+    if (!trimmed) return;
+    if (!urls.includes(trimmed)) urls.push(trimmed);
+  });
+
+  return urls;
+};
+
+const getOpportunityCatalog = () => [...JOB_PORTALS, ...getStoredOpportunityRecords()];
+
+const getSARegionAliases = () => ({
+  soshanguve: ['soshanguve', 'pretoria north', 'tshwane north'],
+  mamelodi: ['mamelodi', 'pretoria east', 'east pretoria'],
+  tembisa: ['tembisa', 'east rand', 'alberton'],
+  soweto: ['soweto', 'johannesburg south', 'jhb south'],
+  midrand: ['midrand', 'sandton', 'randburg', 'rosebank', 'fourways'],
+  centurion: ['centurion', 'pretoria west', 'tshwane west'],
+  pretoria: ['pretoria', 'tshwane'],
+  johannesburg: ['johannesburg', 'jhb', 'gauteng'],
+  cape_town: ['cape town', 'capetown', 'western cape'],
+  durban: ['durban', 'kwazulu-natal', 'kzn'],
+  bloemfontein: ['bloemfontein', 'free state'],
+  polokwane: ['polokwane', 'limpopo'],
+  rutenburg: ['rustenburg', 'north west'],
+  george: ['george', 'western cape south'],
+  benoni: ['benoni', 'east rand'],
+  boksburg: ['boksburg', 'east rand'],
+  vereeniging: ['vereeniging', 'vanderbijlpark'],
+  meyerton: ['meyerton', 'vanderbijlpark']
+});
+
+const getDistanceEstimateKm = (origin, destination) => {
+  const map = {
+    soshanguve: { lat: -25.53, lng: 28.1 },
+    mamelodi: { lat: -25.7, lng: 28.35 },
+    tembisa: { lat: -25.99, lng: 28.23 },
+    soweto: { lat: -26.27, lng: 27.86 },
+    midrand: { lat: -25.99, lng: 28.12 },
+    centurion: { lat: -25.86, lng: 28.19 },
+    pretoria: { lat: -25.75, lng: 28.24 },
+    johannesburg: { lat: -26.2, lng: 28.04 },
+    sandton: { lat: -26.11, lng: 28.05 },
+    rosebank: { lat: -26.15, lng: 28.04 },
+    randburg: { lat: -26.1, lng: 27.98 },
+    benoni: { lat: -26.19, lng: 28.32 },
+    boksburg: { lat: -26.21, lng: 28.25 },
+    vereeniging: { lat: -26.67, lng: 27.92 },
+    meyerton: { lat: -26.58, lng: 27.98 },
+    rustenburg: { lat: -25.66, lng: 27.24 },
+    george: { lat: -33.96, lng: 22.46 },
+    durban: { lat: -29.86, lng: 31.02 },
+    cape_town: { lat: -33.92, lng: 18.42 },
+    polokwane: { lat: -23.9, lng: 29.45 },
+    bloemfontein: { lat: -29.12, lng: 26.22 },
+    remote: { lat: 0, lng: 0 }
+  };
+
+  const start = map[origin] || null;
+  const end = map[destination] || map[origin] || null;
+
+  if (!start || !end) return null;
+
+  const toRad = (degrees) => (degrees * Math.PI) / 180;
+  const earthRadiusKm = 6371;
+  const dLat = toRad(end.lat - start.lat);
+  const dLng = toRad(end.lng - start.lng);
+  const a = Math.sin(dLat / 2) ** 2 + Math.cos(toRad(start.lat)) * Math.cos(toRad(end.lat)) * Math.sin(dLng / 2) ** 2;
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return Math.round(earthRadiusKm * c);
+};
+
+const getUserLocationProfile = (suburb, city, province) => {
+  const profile = { suburb, city, province };
+  const aliasMap = getSARegionAliases();
+  const findMatch = (value) => {
+    const norm = normalizeLocationText(value);
+    if (!norm) return null;
+    const entry = Object.entries(aliasMap).find(([, aliases]) => aliases.some((alias) => alias === norm || norm.includes(alias) || alias.includes(norm)));
+    return entry ? entry[0] : null;
+  };
+
+  return {
+    ...profile,
+    suburbKey: findMatch(suburb) || findMatch(city) || findMatch(province),
+    cityKey: findMatch(city) || findMatch(suburb) || findMatch(province),
+    provinceKey: findMatch(province) || findMatch(city) || findMatch(suburb)
+  };
+};
+
+const isOpportunityNearUser = (opportunity, userLocation) => {
+  const opportunityText = [opportunity.suburb, opportunity.city, opportunity.province, opportunity.location].filter(Boolean).join(' ');
+  const userText = [userLocation.suburb, userLocation.city, userLocation.province].filter(Boolean).join(' ');
+  if (!opportunityText || !userText) return false;
+
+  const normalizedOpportunity = normalizeLocationText(opportunityText);
+  const normalizedUser = normalizeLocationText(userText);
+  return normalizedOpportunity.includes(normalizedUser) || normalizedUser.includes(normalizedOpportunity) ||
+    (userLocation.suburbKey && (normalizedOpportunity.includes(userLocation.suburbKey) || userLocation.suburbKey.includes(normalizedOpportunity))) ||
+    (userLocation.cityKey && (normalizedOpportunity.includes(userLocation.cityKey) || userLocation.cityKey.includes(normalizedOpportunity)));
+};
+
+const getNearbyOpportunitySections = (userInput) => {
+  const userLocation = getUserLocationProfile(userInput.suburb, userInput.city, userInput.province);
+  const items = getOpportunityCatalog();
+
+  const inArea = [];
+  const nearbyArea = [];
+  const national = [];
+  const remoteItems = [];
+
+  items.forEach((item) => {
+    if (!item) return;
+    const areaMatch = isOpportunityNearUser(item, userLocation);
+    const status = item.remote ? 'remote' : item.southAfricaWide ? 'national' : (areaMatch ? 'area' : 'other');
+
+    if (item.remote) {
+      remoteItems.push(item);
+      return;
+    }
+
+    if (status === 'area' || areaMatch) {
+      inArea.push(item);
+      return;
+    }
+
+    if (status === 'national' || item.southAfricaWide) {
+      national.push(item);
+      return;
+    }
+
+    if (userLocation.suburbKey || userLocation.cityKey) {
+      const userKey = userLocation.suburbKey || userLocation.cityKey;
+      const opportunityKey = normalizeLocationText([item.suburb, item.city, item.province].join(' '));
+      const nearbyAliases = getSARegionAliases()[userKey] || [];
+      const isNearbyMatch = nearbyAliases.some((alias) => opportunityKey.includes(alias) || alias.includes(opportunityKey));
+      if (isNearbyMatch) {
+        nearbyArea.push(item);
+      } else {
+        national.push(item);
+      }
+    } else {
+      national.push(item);
+    }
+  });
+
+  return { inArea, nearbyArea, national, remoteItems };
+};
+
+const formatLocationInfo = (opportunity, userLocation) => {
+  const locationText = [opportunity.suburb, opportunity.city, opportunity.province, opportunity.location].filter(Boolean).join(', ') || 'Location not provided';
+  const hasReliableOrigin = userLocation && (userLocation.suburbKey || userLocation.cityKey);
+  const hasReliableDestination = normalizeLocationText([opportunity.suburb, opportunity.city, opportunity.province, opportunity.location].join(' '));
+
+  if (!hasReliableOrigin || !hasReliableDestination || hasReliableDestination === 'location not provided') {
+    return '📍 Location not provided';
+  }
+
+  const userKey = userLocation.suburbKey || userLocation.cityKey || 'pretoria';
+  const destinationKey = normalizeLocationText([opportunity.suburb, opportunity.city, opportunity.province, opportunity.location].join(' ')).split(' ')[0] || 'pretoria';
+  const distance = getDistanceEstimateKm(userKey, destinationKey);
+
+  if (distance === null) {
+    return '📍 Distance unavailable';
+  }
+
+  return `📍 ${distance} km from ${userLocation.suburb || userLocation.city || 'your area'}`;
+};
+
+const getOpportunityDisplayName = (item) => item.title || item.name || 'Opportunity';
+
+const renderNearByResults = (userQuery) => {
+  const container = document.getElementById('nearbyOpportunityResults');
+  if (!container) return;
+
+  const query = {
+    suburb: document.getElementById('userSuburbInput')?.value || userQuery?.suburb || '',
+    city: document.getElementById('userCityInput')?.value || userQuery?.city || '',
+    province: document.getElementById('userProvinceInput')?.value || userQuery?.province || ''
+  };
+
+  const userLocation = getUserLocationProfile(query.suburb, query.city, query.province);
+  const sections = getNearbyOpportunitySections(query);
+  const hasAnyInput = query.suburb || query.city || query.province;
+
+  if (!hasAnyInput) {
+    container.innerHTML = `
+      <div class="nearby-results-block">
+        <div class="nearby-results-section">
+          <h3>📍 Jobs near you</h3>
+          <div class="nearby-results-grid">
+            <div class="nearby-result-card">
+              <h4>Enter your suburb to get nearby results.</h4>
+              <p>Use the search above or browse all opportunities below.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+    return;
+  }
+
+  const buildCards = (items, heading, emptyText) => {
+    if (!items.length) {
+      return `
+        <div class="nearby-results-section">
+          <h3>${heading}</h3>
+          <div class="nearby-results-grid">
+            <div class="nearby-result-card">
+              <h4>${emptyText}</h4>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    return `
+      <div class="nearby-results-section">
+        <h3>${heading}</h3>
+        <div class="nearby-results-grid">
+          ${items.map((item) => {
+            const sourceName = item.source || 'Source not provided';
+            const objectLocation = [item.suburb, item.city, item.province, item.location].filter(Boolean).join(', ') || 'Location not provided';
+            const distanceText = formatLocationInfo(item, userLocation);
+            const links = normalizeOpportunityLinks(item);
+            const detailsLabel = item.requirements || item.description || 'Information not provided';
+            const linksMarkup = links.length
+              ? links.map((link, index) => `<div class="source-row"><a href="${link}" target="_blank" rel="noopener">${index === 0 ? '🔗 Apply Now' : '🔗 View Link'}</a></div>`).join('')
+              : '<div class="source-row">Application link not provided</div>';
+            return `
+              <article class="nearby-result-card">
+                <span class="job-type">${item.type || item.category || 'Opportunity'}</span>
+                <h4>${getOpportunityDisplayName(item)}</h4>
+                <p>${item.company || item.name || 'Opportunity listing'}</p>
+                <p>${objectLocation}</p>
+                <p>${distanceText}</p>
+                <p>${detailsLabel}</p>
+                <div class="source-row">Source: ${sourceName}</div>
+                ${linksMarkup}
+              </article>
+            `;
+          }).join('')}
+        </div>
+      </div>
+    `;
+  };
+
+  container.innerHTML = `
+    <div class="nearby-results-block">
+      ${buildCards(sections.inArea, '📍 In Your Area', 'No opportunities were found in your area.')}
+      ${buildCards(sections.nearbyArea, '🚗 Nearby Areas', 'No nearby-area opportunities were found.')}
+      ${buildCards(sections.national, '🇿🇦 South Africa-Wide', 'No South Africa-wide opportunities were found.')}
+      ${buildCards(sections.remoteItems, '💻 Remote', 'No remote opportunities were found.')}
+    </div>
+  `;
+};
+
+const renderMorePlaces = () => {
+  const container = document.getElementById('morePlacesList');
+  if (!container) return;
+
+  container.innerHTML = OPPORTUNITY_RESOURCES.map((source) => `
+    <article class="opportunity-card">
+      <span class="opportunity-icon">🔎</span>
+      <h3>${source.name}</h3>
+      <p>${source.description}</p>
+      <p><strong>Category:</strong> ${source.category}</p>
+      <p><strong>Location coverage:</strong> ${source.locationCoverage}</p>
+      <a href="${source.url}" target="_blank" rel="noopener">Visit website →</a>
+    </article>
+  `).join('');
+};
+
+const renderAllOpportunities = () => {
+  const list = document.getElementById('jobListings');
+  if (!list) return;
+
+  const allItems = getOpportunityCatalog();
+  list.innerHTML = allItems.map((job) => {
+    const locationText = [job.suburb, job.city, job.province, job.location].filter(Boolean).join(', ') || 'Location not provided';
+    const links = normalizeOpportunityLinks(job);
+    const linksMarkup = links.length
+      ? links.map((link, index) => `<div class="source-row"><a href="${link}" target="_blank" rel="noopener">${index === 0 ? '🔗 Apply Now' : '🔗 View Link'}</a></div>`).join('')
+      : '<div class="source-row">Application link not provided</div>';
+
+    return `
+      <article class="job-card">
+        <div class="job-top">
+          <div>
+            <span class="job-type">${job.type || job.category || 'Opportunity'}</span>
+            <h3>${getOpportunityDisplayName(job)}</h3>
+          </div>
+          <span class="job-distance">${job.remote ? 'Remote' : (job.location || 'Location not provided')}</span>
+        </div>
+        <p>${job.requirements || job.description || 'Information not provided'}</p>
+        <p><strong>Location:</strong> ${locationText}</p>
+        <p><strong>Source:</strong> ${job.source || 'Source not provided'}</p>
+        ${linksMarkup}
+      </article>
+    `;
+  }).join('');
+};
 
 const normalizePhoneNumber = (value, countryCode = 'ZA') => {
   const digits = String(value || '').replace(/\D/g, '');
@@ -952,19 +1431,25 @@ const renderJobListings = () => {
   if (!list) return;
 
   const maxDistance = Number(select?.value || 100);
-  const filteredJobs = JOB_PORTALS.filter((job) => job.radiusKm <= maxDistance || maxDistance >= 150);
+  const catalog = getOpportunityCatalog();
+  const filteredJobs = catalog.filter((job) => {
+    const radius = Number(job.radiusKm || 150);
+    return radius <= maxDistance || maxDistance >= 150;
+  });
 
   list.innerHTML = filteredJobs.map((job) => `
     <article class="job-card">
       <div class="job-top">
         <div>
-          <span class="job-type">${job.type}</span>
-          <h3>${job.name}</h3>
+          <span class="job-type">${job.type || job.category || 'Opportunity'}</span>
+          <h3>${getOpportunityDisplayName(job)}</h3>
         </div>
-        <span class="job-distance">Up to ${job.radiusKm} km</span>
+        <span class="job-distance">${job.radiusKm ? `Up to ${job.radiusKm} km` : (job.remote ? 'Remote' : 'Location not provided')}</span>
       </div>
-      <p>${job.requirements}</p>
-      <a href="${job.url}" target="_blank" rel="noopener">Open verified listing</a>
+      <p>${job.requirements || job.description || 'Information not provided'}</p>
+      <p><strong>Location:</strong> ${[job.suburb, job.city, job.province, job.location].filter(Boolean).join(', ') || 'Location not provided'}</p>
+      <p><strong>Source:</strong> ${job.source || 'Source not provided'}</p>
+      <a href="${job.url || '#'}" target="_blank" rel="noopener">Open verified listing</a>
     </article>
   `).join('');
 };
@@ -1499,6 +1984,69 @@ const setupAuthModal = () => {
   });
 };
 
+const renderAdminOpportunityList = () => {
+  const list = document.getElementById('adminOpportunityList');
+  if (!list) return;
+
+  const records = getStoredOpportunityRecords();
+  list.innerHTML = records.length
+    ? records.map((item) => `
+        <li>
+          <div>
+            <strong>${sanitizeText(item.title || item.name || 'Untitled opportunity')}</strong>
+            <span>${sanitizeText(item.company || 'Company not provided')}</span>
+          </div>
+          <div>
+            <span>${sanitizeText(item.location || 'Location not provided')}</span>
+            <small>${sanitizeText(item.source || 'Source not provided')}</small>
+          </div>
+          <div class="admin-opportunity-actions">
+            <button type="button" class="text-button" data-edit-opportunity="${item.id}">Edit</button>
+            <button type="button" class="text-button" data-delete-opportunity="${item.id}">Delete</button>
+          </div>
+        </li>
+      `).join('')
+    : '<li><span>No additional opportunities have been added yet.</span></li>';
+
+  list.querySelectorAll('[data-edit-opportunity]').forEach((button) => {
+    button.addEventListener('click', () => {
+      const targetId = button.getAttribute('data-edit-opportunity');
+      const item = getStoredOpportunityRecords().find((record) => String(record.id) === String(targetId));
+      if (!item) return;
+      const form = document.getElementById('opportunityAdminForm');
+      if (!form) return;
+
+      Object.entries(item).forEach(([key, value]) => {
+        const field = form.elements.namedItem(key);
+        if (!field) return;
+        if (field.type === 'checkbox') {
+          field.checked = Boolean(value);
+        } else if (Array.isArray(value)) {
+          field.value = value.join(', ');
+        } else {
+          field.value = value || '';
+        }
+      });
+
+      const hiddenId = document.getElementById('opportunityFormId');
+      if (hiddenId) hiddenId.value = item.id || '';
+      const submitButton = form.querySelector('button[type="submit"]');
+      if (submitButton) submitButton.textContent = 'Update opportunity';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  });
+
+  list.querySelectorAll('[data-delete-opportunity]').forEach((button) => {
+    button.addEventListener('click', () => {
+      const targetId = button.getAttribute('data-delete-opportunity');
+      const records = getStoredOpportunityRecords().filter((record) => String(record.id) !== String(targetId));
+      saveStoredOpportunityRecords(records);
+      renderAdminOpportunityList();
+      showToast('Opportunity removed from the admin list.');
+    });
+  });
+};
+
 const renderAdminPage = () => {
   const currentUser = readSessionUser();
   const root = document.getElementById('adminPageRoot');
@@ -1559,10 +2107,125 @@ const renderAdminPage = () => {
               `).join('')}
             </ul>
           </div>
+
+          <div class="admin-list-wrap">
+            <h3>Add more opportunities</h3>
+            <form id="opportunityAdminForm" class="opportunity-admin-form">
+              <input type="hidden" id="opportunityFormId" name="id" />
+              <div class="opportunity-admin-grid">
+                <label><span>Title</span><input name="title" type="text" required /></label>
+                <label><span>Company / Provider</span><input name="company" type="text" /></label>
+                <label><span>Location</span><input name="location" type="text" /></label>
+                <label><span>Province</span><input name="province" type="text" /></label>
+                <label><span>City</span><input name="city" type="text" /></label>
+                <label><span>Suburb</span><input name="suburb" type="text" /></label>
+                <label><span>Category</span><input name="category" type="text" /></label>
+                <label><span>Career field</span><input name="careerField" type="text" /></label>
+                <label><span>Job type</span><input name="jobType" type="text" /></label>
+                <label><span>Closing date</span><input name="closingDate" type="date" /></label>
+                <label><span>Salary</span><input name="salary" type="text" /></label>
+                <label><span>Stipend</span><input name="stipend" type="text" /></label>
+                <label><span>Number of positions</span><input name="positions" type="text" /></label>
+                <label><span>Date posted</span><input name="datePosted" type="date" /></label>
+                <label><span>Application URL</span><input name="applicationUrl" type="url" placeholder="https://example.com/apply" /></label>
+                <label><span>Original source URL</span><input name="sourceUrl" type="url" placeholder="https://example.com/source" /></label>
+                <label><span>Source</span><input name="source" type="text" placeholder="DPSA, Company Careers, etc." /></label>
+              </div>
+              <div class="opportunity-admin-grid large">
+                <label><span>Description</span><textarea name="description"></textarea></label>
+                <label><span>Requirements</span><textarea name="requirements"></textarea></label>
+                <label><span>Important notes</span><textarea name="importantNotes"></textarea></label>
+              </div>
+              <div class="opportunity-admin-checks">
+                <label><input name="verified" type="checkbox" /> Verified</label>
+                <label><input name="remote" type="checkbox" /> Remote</label>
+                <label><input name="southAfricaWide" type="checkbox" /> South Africa-wide</label>
+              </div>
+              <div class="admin-actions">
+                <button type="submit" class="button">Save opportunity</button>
+                <button type="button" class="button secondary" id="resetOpportunityForm">Reset</button>
+              </div>
+            </form>
+
+            <div class="admin-list-wrap">
+              <h4>Added opportunities</h4>
+              <ul id="adminOpportunityList" class="admin-user-list"></ul>
+            </div>
+          </div>
         </div>
       </div>
     </main>
   `;
+
+  renderAdminOpportunityList();
+
+  const form = document.getElementById('opportunityAdminForm');
+  if (form) {
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const formData = new FormData(form);
+      const serialized = Object.fromEntries(formData.entries());
+      const payload = {
+        id: serialized.id || `opportunity-${Date.now()}`,
+        title: serialized.title || '',
+        company: serialized.company || '',
+        location: serialized.location || '',
+        province: serialized.province || '',
+        city: serialized.city || '',
+        suburb: serialized.suburb || '',
+        category: serialized.category || '',
+        careerField: serialized.careerField || '',
+        jobType: serialized.jobType || '',
+        description: serialized.description || '',
+        requirements: serialized.requirements || '',
+        importantNotes: serialized.importantNotes || '',
+        closingDate: serialized.closingDate || '',
+        salary: serialized.salary || '',
+        stipend: serialized.stipend || '',
+        positions: serialized.positions || '',
+        datePosted: serialized.datePosted || '',
+        applicationUrl: serialized.applicationUrl || '',
+        sourceUrl: serialized.sourceUrl || '',
+        source: serialized.source || 'Source not provided',
+        verified: form.querySelector('input[name="verified"]').checked,
+        remote: form.querySelector('input[name="remote"]').checked,
+        southAfricaWide: form.querySelector('input[name="southAfricaWide"]').checked,
+        type: serialized.jobType || serialized.category || 'Opportunity'
+      };
+
+      if (!payload.title) {
+        showToast('A title is required for each opportunity.');
+        return;
+      }
+
+      const existing = getStoredOpportunityRecords();
+      const index = existing.findIndex((item) => String(item.id) === String(payload.id));
+      if (index >= 0) {
+        existing[index] = { ...existing[index], ...payload };
+      } else {
+        existing.push(payload);
+      }
+      saveStoredOpportunityRecords(existing);
+      form.reset();
+      document.getElementById('opportunityFormId').value = '';
+      const submitButton = form.querySelector('button[type="submit"]');
+      if (submitButton) submitButton.textContent = 'Save opportunity';
+      renderAdminOpportunityList();
+      showToast('Opportunity saved successfully.');
+    });
+  }
+
+  const resetButton = document.getElementById('resetOpportunityForm');
+  if (resetButton) {
+    resetButton.addEventListener('click', () => {
+      const form = document.getElementById('opportunityAdminForm');
+      if (form) form.reset();
+      const hiddenId = document.getElementById('opportunityFormId');
+      if (hiddenId) hiddenId.value = '';
+      const submitButton = form?.querySelector('button[type="submit"]');
+      if (submitButton) submitButton.textContent = 'Save opportunity';
+    });
+  }
 
   const adminLogoutButton = document.getElementById('adminLogoutButton');
   if (adminLogoutButton) {
@@ -1961,6 +2624,44 @@ if (helpForm) {
   });
 }
 
+const bindLocationSearchControls = () => {
+  const suburbInput = document.getElementById('userSuburbInput');
+  const cityInput = document.getElementById('userCityInput');
+  const provinceInput = document.getElementById('userProvinceInput');
+  const findButton = document.getElementById('findNearbyJobsButton');
+  const browseButton = document.getElementById('browseAllOpportunitiesButton');
+
+  if (!findButton || !browseButton) return;
+
+  const runSearch = () => {
+    renderNearByResults({
+      suburb: suburbInput?.value || '',
+      city: cityInput?.value || '',
+      province: provinceInput?.value || ''
+    });
+  };
+
+  findButton.addEventListener('click', runSearch);
+  browseButton.addEventListener('click', () => {
+    renderAllOpportunities();
+    renderNearByResults({ suburb: '', city: '', province: '' });
+    const jobSearch = document.getElementById('job-search');
+    if (jobSearch) {
+      jobSearch.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  });
+
+  [suburbInput, cityInput, provinceInput].forEach((input) => {
+    if (!input) return;
+    input.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter') {
+        event.preventDefault();
+        runSearch();
+      }
+    });
+  });
+};
+
 if (employerForm) {
   employerForm.addEventListener('submit', (event) => {
     event.preventDefault();
@@ -1993,6 +2694,9 @@ try {
 
   if (document.getElementById('jobListings')) {
     renderJobListings();
+    renderMorePlaces();
+    bindLocationSearchControls();
+    renderNearByResults({ suburb: '', city: '', province: '' });
     const jobDistanceFilter = document.getElementById('jobDistanceFilter');
     if (jobDistanceFilter) {
       jobDistanceFilter.addEventListener('change', renderJobListings);

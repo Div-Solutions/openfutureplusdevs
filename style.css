@@ -739,6 +739,51 @@ img[alt*="Netlify"],
   max-width: 320px;
 }
 
+.location-search-panel {
+  background: rgba(17, 29, 46, 0.9);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.location-search-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.location-search-grid label {
+  display: grid;
+  gap: 0.5rem;
+  color: var(--text);
+  font-weight: 600;
+}
+
+.location-search-grid input {
+  width: 100%;
+  padding: 0.9rem 1rem;
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 12px;
+  background: rgba(7,11,18,0.7);
+  color: var(--text);
+}
+
+.location-search-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.search-hint {
+  margin-top: 0.85rem;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
 .job-filter-panel select {
   width: 100%;
   padding: 0.9rem 1rem;
@@ -753,6 +798,73 @@ img[alt*="Netlify"],
   align-items: center;
   justify-content: space-between;
   gap: 0.75rem;
+}
+
+.nearby-results-block {
+  display: grid;
+  gap: 1.25rem;
+  margin-top: 1rem;
+}
+
+.nearby-results-section {
+  background: rgba(17, 29, 46, 0.9);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 1.25rem;
+}
+
+.nearby-results-section h3 {
+  margin: 0 0 1rem;
+}
+
+.nearby-results-grid {
+  display: grid;
+  gap: 0.8rem;
+}
+
+.nearby-result-card {
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 14px;
+  padding: 1rem;
+}
+
+.nearby-result-card h4 {
+  margin: 0 0 0.5rem;
+}
+
+.nearby-result-card p {
+  margin: 0.25rem 0;
+  color: var(--muted);
+}
+
+.source-row {
+  margin-top: 0.5rem;
+  color: var(--secondary);
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.source-row a {
+  color: var(--secondary);
+}
+
+.nearby-result-card .distance-pill {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.25rem 0.55rem;
+  border-radius: 999px;
+  background: rgba(72, 210, 116, 0.12);
+  border: 1px solid rgba(72, 210, 116, 0.25);
+  color: #8fe7a6;
+}
+
+@media (max-width: 720px) {
+  .location-search-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 .job-distance {
@@ -1295,6 +1407,65 @@ img[alt*="Netlify"],
   align-items: center;
   gap: 1.5rem;
   padding: 1.75rem 2rem;
+}
+
+.opportunity-admin-form {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.opportunity-admin-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.opportunity-admin-grid.large {
+  grid-template-columns: 1fr;
+}
+
+.opportunity-admin-grid label,
+.opportunity-admin-checks label {
+  display: grid;
+  gap: 0.45rem;
+  color: var(--text);
+  font-weight: 600;
+}
+
+.opportunity-admin-grid input,
+.opportunity-admin-grid textarea {
+  width: 100%;
+  padding: 0.8rem 0.9rem;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(7,11,18,0.7);
+  color: var(--text);
+}
+
+.opportunity-admin-grid textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.opportunity-admin-checks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+}
+
+.opportunity-admin-checks label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.admin-opportunity-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.4rem;
 }
 
 .assistant-widget {
