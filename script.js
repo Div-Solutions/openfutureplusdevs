@@ -13,9 +13,12 @@ const tutForm = document.getElementById('tutForm');
 const year = document.getElementById('year');
 const STORAGE_KEY = 'openfuture_users_v1';
 const SESSION_KEY = 'openfuture_session_v1';
+const THEME_STORAGE_KEY = 'openfuture_theme_preference';
+const ASSISTANT_FEED_KEY = 'openfuture_admin_assistant_feed';
 const ADMIN_EMAIL = 'mutavhatsindivule@gmail.com';
 const ADMIN_PASSWORD = 'Admin@1t';
 const ADMIN_PHONE = '+27 72 999 0064';
+const WHATSAPP_NUMBER = '27729990064';
 const SECURITY_SECRET = 'openfutureplus-static-security-v1';
 const SESSION_TIMEOUT_MS = 20 * 60 * 1000;
 const ADMIN_NAME = 'Vuledzani Mbangambanga Mutavhatsindi';
@@ -427,6 +430,333 @@ const JOB_PORTALS = [
   }
 ];
 
+const EXTRA_OPPORTUNITY_RECORDS = [
+  {
+    id: 'sappi-apprentice-electrical',
+    title: 'Apprentice: Electrical',
+    company: 'Sappi',
+    type: 'Apprenticeship',
+    location: 'Sappi site',
+    province: 'KwaZulu-Natal',
+    city: 'KwaZulu-Natal',
+    suburb: 'South Africa',
+    description: 'Sappi is offering an exciting career in engineering through its Apprentice training programme. Dynamic, self-motivated individuals with the right technical ability are given institutional and work based training in order to qualify as an artisan after 4 years.',
+    requirements: 'Institutional and work-based training under supervision of engineering foremen and qualified artisans. Competitive apprentice wage for the duration of the assignment.',
+    closingDate: '2026-09-22',
+    applicationUrl: 'https://www.jobopportunitiessa.com/2026/09/apprentice-electrical-job-with-artisan-training-at-sappi/',
+    source: 'Sappi',
+    salary: 'Competitive apprentice wage',
+    verified: true,
+    importantNotes: 'Fixed-term contract with accredited training and workplace experiential training.'
+  },
+  {
+    id: 'nedbank-senior-risk-manager',
+    title: 'Senior Risk Manager IT and Cyber Risk',
+    company: 'Nedbank',
+    type: 'Professional role',
+    location: 'Johannesburg',
+    province: 'Gauteng',
+    city: 'Johannesburg',
+    suburb: 'Johannesburg',
+    description: 'Senior risk and technology leadership opportunity with a focus on IT and cyber risk management.',
+    requirements: 'Honours Degree or Postgraduate Diploma in Information Security, Cyber Security, Information Technology, Risk Management or a related discipline.',
+    closingDate: '2026-09-22',
+    applicationUrl: 'https://www.jobopportunitiessa.com/2026/09/step-into-senior-it-and-cyber-risk-management-with-nedbank/',
+    source: 'Nedbank',
+    salary: 'Information not provided',
+    verified: true,
+    importantNotes: 'Preferred qualification listed in supplied source.'
+  },
+  {
+    id: 'sappi-apprentice-millwright',
+    title: 'Apprentice: Millwright',
+    company: 'Sappi',
+    type: 'Apprenticeship',
+    location: 'Sappi site',
+    province: 'KwaZulu-Natal',
+    city: 'KwaZulu-Natal',
+    suburb: 'South Africa',
+    description: 'Sappi is offering an exciting career in engineering through its Apprentice training programme. Dynamic, self-motivated individuals with the right technical ability are given institutional and work based training in order to qualify as an artisan after 4 years.',
+    requirements: 'Accredited training and workplace experiential training under supervision of engineering foremen and qualified artisans.',
+    closingDate: '2026-09-22',
+    applicationUrl: 'https://www.jobopportunitiessa.com/2026/09/apprentice-millwright-job-with-artisan-training-at-sappi/',
+    source: 'Sappi',
+    salary: 'Competitive apprentice wage',
+    verified: true,
+    importantNotes: 'Fixed-term contract with artisan development pathway.'
+  },
+  {
+    id: 'eskom-she-officer',
+    title: 'Officer Safety Health & Environment',
+    company: 'Eskom',
+    type: 'Public sector role',
+    location: 'South Africa',
+    province: 'National',
+    city: 'South Africa',
+    suburb: 'National',
+    description: 'Safety, health and environmental area management with risk management and SHEQ adherence responsibilities.',
+    requirements: 'Safety, health, environmental area management skills, risk management and administration experience.',
+    closingDate: '2026-09-22',
+    applicationUrl: 'https://www.jobopportunitiessa.com/2026/09/eskom-officer-safety-health-environment-opportunity-across-south-africa/',
+    source: 'Eskom',
+    salary: 'Information not provided',
+    verified: true,
+    importantNotes: 'Key responsibilities include admin, management, and SHEQ adherence.'
+  },
+  {
+    id: 'eskom-yes',
+    title: 'Youth Employment Service (YES) x50',
+    company: 'Eskom',
+    type: 'Youth programme',
+    location: 'Eskom Operations across divisions',
+    province: 'National',
+    city: 'South Africa',
+    suburb: 'National',
+    description: 'Youth employment and placement opportunity through the YES programme in Eskom operations across divisions.',
+    requirements: 'Should not have been employed permanently with a single employer continuously for more than 1 year; should not be studying full time; should not have participated/registered on YES before.',
+    closingDate: '2026-09-22',
+    applicationUrl: 'https://www.jobopportunitiessa.com/2026/09/youth-employment-service-yes-x50-opportunity-at-eskom/',
+    source: 'Eskom',
+    salary: 'Information not provided',
+    verified: true,
+    importantNotes: 'Applicants go through recruitment and are placed in Eskom Operations across divisions.'
+  },
+  {
+    id: 'dwarsrivier-electrician-learnership',
+    title: 'Learnership — Electrician (18.1)',
+    company: 'Dwarsrivier',
+    type: 'Learnership',
+    location: 'Dwarsrivier',
+    province: 'Limpopo',
+    city: 'Limpopo',
+    suburb: 'Limpopo',
+    description: 'Electrician learnership opportunity for candidates who meet the minimum requirements.',
+    requirements: 'Applicants must provide information/proof of qualifications according to minimum requirements. No late applications, no unsolicited applications, and no recruitment agency CVs.',
+    closingDate: '2026-09-24',
+    applicationUrl: 'https://www.jobopportunitiessa.com/2026/09/grade-12-candidates-can-apply-for-dwarsrivier-electrician-learnership/',
+    source: 'Dwarsrivier',
+    salary: 'Information not provided',
+    verified: true,
+    importantNotes: 'POPIA disclaimer applies to CV processing for recruitment.'
+  },
+  {
+    id: 'cba-data-engineer',
+    title: 'Data Engineer',
+    company: 'Coca-Cola Beverages Africa',
+    type: 'Professional role',
+    location: 'South Africa',
+    province: 'National',
+    city: 'South Africa',
+    suburb: 'National',
+    description: 'Data pipeline development, integration, and transformation for enterprise reporting and analytics.',
+    requirements: 'Computer Science, Data Engineering, and Information Systems background; data pipeline and analytics experience preferred.',
+    closingDate: '2026-09-24',
+    applicationUrl: 'https://www.jobopportunitiessa.com/2026/09/build-your-data-career-with-coca-cola-beverages-africas-data-engineer-role/',
+    source: 'Coca-Cola Beverages Africa',
+    salary: 'Information not provided',
+    verified: true,
+    importantNotes: 'Same URL as supplied source; separate record retained with closing date 24 September 2026.'
+  },
+  {
+    id: 'rosebank-ict-intern',
+    title: 'ICT Intern',
+    company: 'Rosebank College',
+    type: 'Internship',
+    location: 'Rosebank College campuses',
+    province: 'National',
+    city: 'South Africa',
+    suburb: 'National',
+    description: 'Practical IT support internship to provide desktop support by installing hardware and software applications and operating systems.',
+    requirements: 'Level 1 desktop support skills including troubleshooting, hardware and software installation, and user support.',
+    closingDate: '2026-09-25',
+    applicationUrl: 'https://www.jobopportunitiessa.com/2026/09/practical-it-support-training-ict-intern-vacancy-at-rosebank-college/',
+    source: 'Rosebank College',
+    salary: 'Information not provided',
+    verified: true,
+    importantNotes: 'Job purpose is to provide desktop support while learning and improving.'
+  },
+  {
+    id: 'tlb-driver',
+    title: 'TLB Driver',
+    company: 'Recruiting company',
+    type: 'Driver role',
+    location: 'Pretoria',
+    province: 'Gauteng',
+    city: 'Pretoria',
+    suburb: 'Pretoria',
+    description: 'Safely operate a Tractor-Loader-Backhoe for excavation, loading, backfilling and site preparation while following safety and operational standards.',
+    requirements: 'Operation of TLB, pre-start inspections, and basic maintenance practices.',
+    closingDate: 'Information not provided',
+    applicationUrl: 'https://www.jobopportunitiessa.com/2026/09/put-your-tlb-operating-skills-to-work-on-this-pretoria-vacancy/',
+    source: 'Recruiting company',
+    salary: 'Information not provided',
+    verified: true,
+    importantNotes: 'This role is specific to safe operations and site preparation.'
+  },
+  {
+    id: 'phakisa-driver-vacancies',
+    title: 'Driver Vacancies',
+    company: 'Phakisa Holdings',
+    type: 'Driver role',
+    location: 'Gauteng — multiple locations',
+    province: 'Gauteng',
+    city: 'Gauteng',
+    suburb: 'Multiple locations',
+    description: 'Multiple driver vacancies across Gauteng and surrounding areas including Johannesburg, Midrand, Centurion and Vereeniging.',
+    requirements: 'Valid Code 10/14 licence; PDP and DGP where required; relevant driving experience; reliable and safety-conscious.',
+    closingDate: 'Information not provided',
+    applicationUrl: 'https://tinyurl.com/phakisa-driver-vacancies-2026',
+    source: 'Phakisa Holdings',
+    salary: 'Information not provided',
+    verified: true,
+    importantNotes: 'Positions include Code 10 and Code 14 driver roles with or without DGP/PDP.'
+  },
+  {
+    id: 'pep-sales-assistant',
+    title: 'PEP Sales Assistant',
+    company: 'PEP',
+    type: 'Sales role',
+    location: 'Store near you',
+    province: 'National',
+    city: 'South Africa',
+    suburb: 'National',
+    description: 'PEP stores have started taking CVs and applicants can check stores near them and submit their CV online.',
+    requirements: 'Customer service, sales support, and store-based retail skills.',
+    closingDate: 'Information not provided',
+    applicationUrl: 'https://tinyurl.com/PEP-Sales-Assistant-2026',
+    source: 'PEP',
+    salary: 'Information not provided',
+    verified: true,
+    importantNotes: 'This is a retail sales support opportunity and not a guaranteed role.'
+  },
+  {
+    id: 'uif-itr-learnership',
+    title: 'UIF ITR Learnership Programme 2026',
+    company: 'Unemployment Insurance Fund',
+    type: 'Learnership',
+    location: 'South Africa',
+    province: 'National',
+    city: 'South Africa',
+    suburb: 'National',
+    description: 'Funded by the UIF through the Labour Activation Programme (LAP) and designed to give workplace experience and training.',
+    requirements: 'Successful applicants receive a monthly stipend and workplace experience; an accredited qualification is mentioned in the supplied information.',
+    closingDate: 'Information not provided',
+    applicationUrl: 'https://insurance.sayouthcareer.com/uif-itr-learnership-12-months-programme/',
+    source: 'UIF',
+    salary: 'R3,000 stipend per month',
+    verified: true,
+    importantNotes: '12 month duration as described in the source information.'
+  },
+  {
+    id: 'security-officer-contact-record',
+    title: 'Security Officer Job Contacts',
+    company: 'Multiple security companies',
+    type: 'Resource/contact list',
+    location: 'Multiple provinces',
+    province: 'National',
+    city: 'National',
+    suburb: 'National',
+    description: 'This is a contact and recruitment resource record, not a single confirmed vacancy list.',
+    requirements: 'Contact details supplied by source; do not treat as verified vacancies without confirmation.',
+    closingDate: 'Information not provided',
+    applicationUrl: 'https://whatsapp.com/channel/0029Va9dydx1t90f8vpz0K2r',
+    source: 'Security recruitment contacts',
+    salary: 'Information not provided',
+    verified: false,
+    importantNotes: 'Displayed as supplied recruitment contacts only.'
+  },
+  {
+    id: 'government-vacancy-circular',
+    title: 'Public Service Vacancies (Government Posts)',
+    company: 'Government of South Africa',
+    type: 'Government vacancies resource',
+    location: 'South Africa',
+    province: 'National',
+    city: 'South Africa',
+    suburb: 'National',
+    description: 'Vacancy Circular 34 of 2026 with downloadable circular and Z83 form for government job applications.',
+    requirements: 'Follow the public service recruitment process and complete the Z83 form as required.',
+    closingDate: 'Information not provided',
+    applicationUrl: 'https://www.dpsa.gov.za/dpsa2g/documents/vacancies/2026/PSV%20CIRCULAR%2034%20of%202026.pdf',
+    source: 'DPSA',
+    salary: 'Information not provided',
+    verified: true,
+    importantNotes: 'Related Z83 form available as a second resource link in this same record.'
+  },
+  {
+    id: 'transnet-cv-registration',
+    title: 'Register Your CV at Transnet',
+    company: 'Transnet',
+    type: 'Career registration',
+    location: 'All provinces, South Africa',
+    province: 'National',
+    city: 'National',
+    suburb: 'National',
+    description: 'Register your CV in the recruitment database so Transnet may contact you when suitable opportunities become available.',
+    requirements: 'South African citizen, unemployed, Grade 10–12 depending on role; Grade 12 for learnerships and entry-level jobs; Grade 10 for general worker posts.',
+    closingDate: 'Information not provided',
+    applicationUrl: 'https://insurance.sayouthcareer.com/how-to-apply-for-jobs-at-transnet-complete-step-by-step-guide/',
+    source: 'Transnet',
+    salary: 'Information not provided',
+    verified: true,
+    importantNotes: 'The source says applicants should not be asked for money to apply.'
+  },
+  {
+    id: 'free-certificate-opportunity',
+    title: 'Free Certificates for South Africans',
+    company: 'Online learning provider',
+    type: 'Free course resource',
+    location: 'Online',
+    province: 'National',
+    city: 'Online',
+    suburb: 'Online',
+    description: 'Free certificate opportunities were advertised for Data Entry Clerk, Basic Computer, Receptionist, Workplace Health & Safety, ECD, TEFL, Microsoft Word, Microsoft Excel, Microsoft Outlook and Microsoft PowerPoint.',
+    requirements: 'South African citizen. No independent accreditation or guaranteed outcome claim has been verified.',
+    closingDate: 'Information not provided',
+    applicationUrl: 'https://tinyurl.com/Educourse-Online-Learning',
+    source: 'Online learning provider',
+    salary: 'Information not provided',
+    verified: false,
+    importantNotes: 'Presented as a resource opportunity based on supplied information only.'
+  },
+  {
+    id: 'uj-free-online-short-courses',
+    title: 'UJ Free Online Short Courses',
+    company: 'University of Johannesburg',
+    type: 'Free online course resource',
+    location: 'Online',
+    province: 'National',
+    city: 'Online',
+    suburb: 'Online',
+    description: 'The supplied information says UJ is offering free online short courses and no Matric is required according to the source.',
+    requirements: 'No Matric requirement according to the supplied information; duration up to 3 months.',
+    closingDate: 'Information not provided',
+    applicationUrl: 'https://tinyurl.com/UJ-Online-Applications-2026',
+    source: 'UJ',
+    salary: 'Information not provided',
+    verified: false,
+    importantNotes: 'Course difficulty and certificate claims are not independently verified in the supplied source.'
+  },
+  {
+    id: 'remote-call-centre-agent',
+    title: 'Remote Call Centre Agent',
+    company: 'Remote support employer',
+    type: 'Remote role',
+    location: 'Remote — South Africa',
+    province: 'National',
+    city: 'Remote',
+    suburb: 'Remote',
+    description: 'Full-time remote call centre role with a customer service and support function.',
+    requirements: 'Customer service or call centre experience preferred; strong English communication; reliable internet; quiet workspace.',
+    closingDate: 'Information not provided',
+    applicationUrl: 'https://insurance.sayouthcareer.com/apply-for-remote-logistics-operations-support-work-from-home-opportunity/',
+    source: 'Remote employer',
+    salary: 'R13,000–R16,000 per month',
+    verified: true,
+    importantNotes: 'Schedule is full-time 11:00–19:00 SAST.'
+  }
+];
+
 const OPPORTUNITY_RESOURCES = [
   {
     name: 'DPSA Vacancies',
@@ -532,7 +862,7 @@ const normalizeOpportunityLinks = (item) => {
   return urls;
 };
 
-const getOpportunityCatalog = () => [...JOB_PORTALS, ...getStoredOpportunityRecords()];
+const getOpportunityCatalog = () => [...JOB_PORTALS, ...EXTRA_OPPORTUNITY_RECORDS, ...getStoredOpportunityRecords()];
 
 const getSARegionAliases = () => ({
   soshanguve: ['soshanguve', 'pretoria north', 'tshwane north'],
@@ -693,6 +1023,419 @@ const formatLocationInfo = (opportunity, userLocation) => {
 };
 
 const getOpportunityDisplayName = (item) => item.title || item.name || 'Opportunity';
+
+const getOpportunityClosingStatus = (closingDate) => {
+  if (!closingDate) {
+    return { label: '📅 Closes: Information not provided', kind: 'info' };
+  }
+
+  const date = new Date(closingDate);
+  if (Number.isNaN(date.getTime())) {
+    return { label: '📅 Closes: Information not provided', kind: 'info' };
+  }
+
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const closing = new Date(date);
+  closing.setHours(0, 0, 0, 0);
+
+  const diffDays = Math.round((closing - today) / (1000 * 60 * 60 * 24));
+
+  if (diffDays < 0) {
+    return { label: '🔴 Closed', kind: 'closed' };
+  }
+  if (diffDays === 0) {
+    return { label: '🟠 Closing Today', kind: 'today' };
+  }
+  if (diffDays === 1) {
+    return { label: '🟡 Closing Tomorrow', kind: 'tomorrow' };
+  }
+
+  return {
+    label: `📅 Closes: ${closing.toLocaleDateString('en-ZA', { day: 'numeric', month: 'short', year: 'numeric' })}`,
+    kind: 'future'
+  };
+};
+
+const getOpportunityLinks = (item) => {
+  const links = normalizeOpportunityLinks(item);
+  return links.length ? links : [];
+};
+
+const getOpportunityDetailValue = (...values) => {
+  for (const value of values) {
+    if (typeof value === 'string' && value.trim()) return value.trim();
+    if (value && value !== 'Information not provided') return value;
+  }
+  return 'Information not provided';
+};
+
+const getOpportunityDistanceText = (userState, item) => {
+  const userKeys = [userState.suburb, userState.city, userState.province].filter(Boolean);
+  const itemLocation = [item?.suburb, item?.city, item?.province, item?.location].filter(Boolean).join(' ');
+
+  if (!userKeys.length || !itemLocation || item?.remote) {
+    return item?.remote ? 'Remote/online' : 'Distance unavailable';
+  }
+
+  const userProfile = getUserLocationProfile(userState.suburb, userState.city, userState.province);
+  const originKey = userProfile.suburbKey || userProfile.cityKey || userProfile.provinceKey;
+  const destinationText = normalizeLocationText(itemLocation);
+  const destinationKey = Object.keys(getSARegionAliases()).find((key) => destinationText.includes(key) || getSARegionAliases()[key].some((alias) => destinationText.includes(alias) || alias.includes(destinationText)));
+
+  if (!originKey || !destinationKey) {
+    return 'Distance unavailable';
+  }
+
+  const distance = getDistanceEstimateKm(originKey, destinationKey);
+  return distance === null ? 'Distance unavailable' : `${distance} km`;
+};
+
+const matchTextValue = (value, expected) => {
+  if (!expected) return true;
+  const actual = normalizeLocationText(String(value || ''));
+  const target = normalizeLocationText(String(expected || ''));
+  return !actual || !target ? true : actual.includes(target) || target.includes(actual);
+};
+
+const matchOpportunityType = (item, selectedType) => {
+  if (!selectedType) return true;
+  const values = [item?.type, item?.category, item?.opportunityType, item?.title, item?.name, item?.description]
+    .filter(Boolean)
+    .join(' ');
+  const text = normalizeLocationText(values);
+  const typeText = normalizeLocationText(selectedType);
+  if (text.includes(typeText) || typeText.includes(text)) return true;
+
+  const aliases = {
+    Jobs: ['job', 'employment', 'vacancy'],
+    Learnerships: ['learnership'],
+    Internships: ['internship'],
+    Bursaries: ['bursary', 'funding'],
+    'Graduate programmes': ['graduate', 'graduate programme'],
+    'Free courses': ['free course', 'course'],
+    'University opportunities': ['university'],
+    'TVET opportunities': ['tvet', 'college'],
+    'Business funding': ['funding', 'business funding'],
+    'Entrepreneurship opportunities': ['entrepreneurship', 'startup', 'business'],
+    'Remote/online opportunities': ['remote', 'online']
+  };
+
+  const patterns = aliases[selectedType] || [typeText];
+  return patterns.some((pattern) => text.includes(pattern));
+};
+
+const matchEducation = (item, selectedEducation) => {
+  if (!selectedEducation) return true;
+  const text = normalizeLocationText([item?.education, item?.educationRequirements, item?.requirements, item?.description].join(' '));
+  return text.includes(normalizeLocationText(selectedEducation)) || selectedEducation === 'Other' || !text;
+};
+
+const matchExperience = (item, selectedExperience) => {
+  if (!selectedExperience) return true;
+  const text = normalizeLocationText([item?.experience, item?.experienceRequirements, item?.requirements, item?.description].join(' '));
+  const target = normalizeLocationText(selectedExperience);
+
+  if (target.includes('no experience')) {
+    return text.includes('no experience') || text.includes('entry level') || text.includes('no previous') || text.includes('0 years') || !text;
+  }
+
+  if (target.includes('less than 1 year')) {
+    return text.includes('less than 1 year') || text.includes('1 year') || text.includes('entry level') || !text;
+  }
+
+  if (target.includes('1-2 years') || target.includes('1–2 years')) {
+    return text.includes('1 year') || text.includes('2 years') || text.includes('1-2 years') || text.includes('1–2 years') || !text;
+  }
+
+  if (target.includes('2+ years')) {
+    return text.includes('2 years') || text.includes('3 years') || text.includes('2+') || text.includes('2+ years') || !text;
+  }
+
+  return text.includes(target) || !text;
+};
+
+const matchField = (item, selectedField) => {
+  if (!selectedField) return true;
+  const text = normalizeLocationText([item?.field, item?.category, item?.industry, item?.title, item?.description].join(' '));
+  return text.includes(normalizeLocationText(selectedField)) || !text;
+};
+
+const getOpportunityFinderMatches = (formState) => {
+  const catalog = getOpportunityCatalog();
+  const userState = {
+    suburb: formState.suburb || '',
+    city: formState.city || '',
+    province: formState.province || ''
+  };
+
+  return catalog.filter((item) => {
+    if (!item) return false;
+
+    const locationText = [item.suburb, item.city, item.province, item.location].join(' ');
+    const includesProvince = formState.province ? matchTextValue(locationText, formState.province) : true;
+    const includesCity = formState.city ? matchTextValue(locationText, formState.city) : true;
+    const includesSuburb = formState.suburb ? matchTextValue(locationText, formState.suburb) : true;
+    const matchesType = matchOpportunityType(item, formState.type);
+    const matchesEducation = matchEducation(item, formState.education);
+    const matchesExperience = matchExperience(item, formState.experience);
+    const matchesField = matchField(item, formState.field);
+
+    let matchesDistance = true;
+    if (formState.distance && Number(formState.distance) < 999) {
+      const distanceText = getOpportunityDistanceText(userState, item);
+      const distanceValue = Number.parseInt(String(distanceText).replace(/\D/g, ''), 10);
+      if (Number.isFinite(distanceValue) && distanceValue > Number(formState.distance)) {
+        matchesDistance = false;
+      }
+    }
+
+    return includesProvince && includesCity && includesSuburb && matchesType && matchesEducation && matchesExperience && matchesField && matchesDistance;
+  });
+};
+
+const buildOpportunityExplanation = (item, formState) => {
+  const typeText = item?.type || item?.category || 'opportunity';
+  const title = item?.title || item?.name || 'This opportunity';
+  const locationText = [item?.suburb, item?.city, item?.province, item?.location].filter(Boolean).join(', ') || 'Location not provided';
+  const educationText = getOpportunityDetailValue(item?.education, item?.educationRequirements, item?.requirements);
+  const experienceText = getOpportunityDetailValue(item?.experience, item?.experienceRequirements, item?.requirements);
+  const matchBlock = [];
+
+  if (formState.type) matchBlock.push(`your interest in ${formState.type.toLowerCase()}`);
+  if (formState.education) matchBlock.push(`your education level of ${formState.education}`);
+  if (formState.experience) matchBlock.push(`your experience level of ${formState.experience}`);
+  if (formState.city || formState.suburb || formState.province) matchBlock.push(`your location in ${[formState.suburb, formState.city, formState.province].filter(Boolean).join(', ') || 'your area'}`);
+
+  const summary = matchBlock.length ? `This may be a good match because it matches ${matchBlock.join(', ')}.` : 'This may be a good match because it matches your search preferences.';
+
+  return `${summary} ${title} is a ${typeText.toLowerCase()} opportunity in ${locationText}. Education requirement: ${educationText}. Experience requirement: ${experienceText}.`;
+};
+
+const renderOpportunityFinderResults = (formState) => {
+  const container = document.getElementById('nearbyOpportunityResults');
+  if (!container) return;
+
+  const hasAnyFormData = Object.values(formState).some((value) => String(value || '').trim() !== '');
+
+  if (!hasAnyFormData) {
+    container.innerHTML = `
+      <div class="finder-results-panel empty-state">
+        <h3>📍 Tell us where you are</h3>
+        <p>Enter your province, city/town and suburb to find opportunities around you.</p>
+      </div>
+    `;
+    return;
+  }
+
+  const matches = getOpportunityFinderMatches(formState);
+  if (!matches.length) {
+    container.innerHTML = `
+      <div class="finder-results-panel empty-state">
+        <h3>😔 We couldn't find a close match yet.</h3>
+        <p>Try expanding your search to 20 km or Anywhere, remove one filter, or choose another opportunity type.</p>
+        <p><strong>Try expanding your search to 20 km or Anywhere.</strong></p>
+      </div>
+    `;
+    return;
+  }
+
+  const cards = matches.map((item) => {
+    const title = item.title || item.name || 'Opportunity';
+    const type = item.type || item.category || 'Opportunity';
+    const locationText = [item.suburb, item.city, item.province, item.location].filter(Boolean).join(', ') || 'Location not provided';
+    const educationText = getOpportunityDetailValue(item.education, item.educationRequirements, item.requirements);
+    const experienceText = getOpportunityDetailValue(item.experience, item.experienceRequirements, item.requirements);
+    const salaryText = getOpportunityDetailValue(item.salary, item.funding, item.budget);
+    const closingStatus = getOpportunityClosingStatus(item.closingDate || item.closing_date || item.deadline);
+    const links = getOpportunityLinks(item);
+    const distanceText = getOpportunityDistanceText(formState, item);
+    const verificationLabel = item.verified ? '✅ Verified' : 'Unverified';
+    const explanation = buildOpportunityExplanation(item, formState);
+    const applyUrl = links[0] || '#';
+
+    return `
+      <article class="finder-match-card">
+        <div class="finder-match-header">
+          <span class="job-type">${sanitizeText(type)}</span>
+          ${item.verified ? '<span class="verified-pill">✅ Verified</span>' : '<span class="pending-pill">Unverified</span>'}
+        </div>
+
+        <h3>${sanitizeText(title)}</h3>
+        <p><strong>📍 Location:</strong> ${sanitizeText(locationText)}</p>
+        <p><strong>🎓 Education requirement:</strong> ${sanitizeText(educationText)}</p>
+        <p><strong>💼 Experience requirement:</strong> ${sanitizeText(experienceText)}</p>
+        <p><strong>💰 Salary/Funding:</strong> ${sanitizeText(salaryText)}</p>
+        <p><strong>📅 Closing date:</strong> ${sanitizeText(closingStatus.label)}</p>
+        <p><strong>📏 Distance:</strong> ${sanitizeText(distanceText)}</p>
+        <p><strong>Verification:</strong> ${sanitizeText(verificationLabel)}</p>
+
+        <div class="match-summary">
+          <strong>✨ Opportunities That Match You</strong>
+          <p>${sanitizeText(explanation)}</p>
+        </div>
+
+        <div class="finder-card-actions">
+          <a class="button" href="${sanitizeText(applyUrl)}" target="_blank" rel="noopener">Apply Now →</a>
+          <button type="button" class="button secondary explain-button">💡 Explain this opportunity simply</button>
+        </div>
+        <div class="simple-explanation hidden">${sanitizeText(explanation)}</div>
+      </article>
+    `;
+  }).join('');
+
+  container.innerHTML = `
+    <div class="finder-results-panel">
+      <h3>✨ Opportunities That Match You</h3>
+      <div class="finder-results-grid">
+        ${cards}
+      </div>
+    </div>
+  `;
+
+  container.querySelectorAll('.explain-button').forEach((button) => {
+    button.addEventListener('click', () => {
+      const panel = button.closest('.finder-match-card')?.querySelector('.simple-explanation');
+      if (!panel) return;
+      panel.classList.toggle('hidden');
+      const expanded = !panel.classList.contains('hidden');
+      button.textContent = expanded ? 'Hide simple explanation' : '💡 Explain this opportunity simply';
+    });
+  });
+};
+
+const readOpportunityFinderState = () => ({
+  province: document.getElementById('finderProvince')?.value || '',
+  city: document.getElementById('finderCity')?.value || '',
+  suburb: document.getElementById('finderSuburb')?.value || '',
+  age: document.getElementById('finderAge')?.value || '',
+  education: document.getElementById('finderEducation')?.value || '',
+  experience: document.getElementById('finderExperience')?.value || '',
+  type: document.getElementById('finderType')?.value || '',
+  distance: document.getElementById('finderDistance')?.value || '',
+  field: document.getElementById('finderField')?.value || ''
+});
+
+const applyQuickSearchPreset = (preset) => {
+  const form = document.getElementById('opportunityFinderForm');
+  if (!form) return;
+
+  const values = {
+    'no-experience': {
+      finderEducation: 'Matric',
+      finderExperience: 'No experience',
+      finderType: 'Jobs',
+      finderDistance: '20'
+    },
+    matric: {
+      finderEducation: 'Matric',
+      finderType: 'Jobs',
+      finderDistance: '20'
+    },
+    'jobs-near-me': {
+      finderType: 'Jobs',
+      finderDistance: '20'
+    },
+    learnerships: {
+      finderType: 'Learnerships',
+      finderDistance: '50'
+    },
+    bursaries: {
+      finderType: 'Bursaries',
+      finderDistance: '999'
+    },
+    remote: {
+      finderType: 'Remote/online opportunities',
+      finderDistance: '999'
+    },
+    funding: {
+      finderType: 'Business funding',
+      finderDistance: '999'
+    },
+    'free-courses': {
+      finderType: 'Free courses',
+      finderDistance: '999'
+    }
+  };
+
+  const presetValues = values[preset] || {};
+  Object.entries(presetValues).forEach(([fieldId, value]) => {
+    const field = document.getElementById(fieldId);
+    if (field) field.value = value;
+  });
+
+  const state = readOpportunityFinderState();
+  renderOpportunityFinderResults(state);
+};
+
+const bindOpportunityFinderControls = () => {
+  const form = document.getElementById('opportunityFinderForm');
+  if (!form) return;
+
+  form.addEventListener('submit', (event) => {
+    event.preventDefault();
+    renderOpportunityFinderResults(readOpportunityFinderState());
+  });
+
+  document.querySelectorAll('.quick-search').forEach((button) => {
+    button.addEventListener('click', () => {
+      applyQuickSearchPreset(button.dataset.quickSearch);
+    });
+  });
+};
+
+const openOpportunityDetailModal = (item) => {
+  const modal = document.getElementById('opportunityDetailModal');
+  const content = document.getElementById('opportunityDetailContent');
+  if (!modal || !content) return;
+
+  const title = item?.title || item?.name || 'Opportunity';
+  const company = item?.company || item?.source || 'Opportunity provider';
+  const type = item?.type || item?.category || 'Opportunity';
+  const location = [item?.suburb, item?.city, item?.province, item?.location].filter(Boolean).join(', ') || 'Location not provided';
+  const description = item?.description || item?.requirements || 'Information not provided';
+  const requirements = item?.requirements || item?.education || 'Information not provided';
+  const closingDate = item?.closingDate || item?.closing_date || item?.deadline || 'Closing date not provided';
+  const salary = item?.salary || item?.stipend || 'Information not provided';
+  const importantNotes = item?.importantNotes || 'Information not provided';
+  const links = normalizeOpportunityLinks(item);
+  const primaryUrl = links[0] || item?.applicationUrl || item?.url || '#';
+
+  const linkMarkup = links.length
+    ? links.map((link, index) => `<a href="${link}" target="_blank" rel="noopener">${index === 0 ? 'Open original source' : 'Related link'}</a>`).join('')
+    : '<span>Application link not provided</span>';
+
+  content.innerHTML = `
+    <div class="opportunity-detail-content">
+      <div class="opportunity-detail-meta">
+        <span>${sanitizeText(type)}</span>
+        ${item?.verified ? '<span>Verified</span>' : '<span>Unverified</span>'}
+      </div>
+      <h2 id="opportunityDetailTitle">${sanitizeText(title)}</h2>
+      <p><strong>Company/provider:</strong> ${sanitizeText(company)}</p>
+      <p><strong>Location:</strong> ${sanitizeText(location)}</p>
+      <p><strong>Description:</strong> ${sanitizeText(description)}</p>
+      <p><strong>Requirements:</strong> ${sanitizeText(requirements)}</p>
+      <p><strong>Closing date:</strong> ${sanitizeText(closingDate)}</p>
+      <p><strong>Salary/stipend:</strong> ${sanitizeText(salary)}</p>
+      <p><strong>Important notes:</strong> ${sanitizeText(importantNotes)}</p>
+      <div class="opportunity-detail-list">
+        <div><strong>Original source/application link:</strong> ${linkMarkup}</div>
+      </div>
+      <div class="detail-actions">
+        <a class="button" href="${sanitizeText(primaryUrl)}" target="_blank" rel="noopener">Apply Now →</a>
+      </div>
+    </div>
+  `;
+
+  modal.classList.remove('hidden');
+};
+
+const closeOpportunityDetailModal = () => {
+  const modal = document.getElementById('opportunityDetailModal');
+  if (!modal) return;
+  modal.classList.add('hidden');
+};
 
 const renderNearByResults = (userQuery) => {
   const container = document.getElementById('nearbyOpportunityResults');
@@ -1068,6 +1811,17 @@ const ensureDemoUsers = () => {
       district: 'Cape Town',
       school: 'Demo Academy',
     },
+    {
+      id: 'user-scott',
+      name: 'Scott Mokoena',
+      email: 'scott@openfutureplus.demo',
+      phone: '+27 71 987 6543',
+      password: 'Scott@123',
+      role: 'user',
+      points: 42,
+      district: 'Pretoria',
+      school: 'Pretoria West Secondary',
+    },
   ];
 
   if (!Array.isArray(existingUsers) || existingUsers.length === 0) {
@@ -1103,8 +1857,86 @@ const readUsers = () => {
   }
 };
 
+const readAssistantFeed = () => {
+  try {
+    const feed = JSON.parse(localStorage.getItem(ASSISTANT_FEED_KEY) || '[]');
+    return Array.isArray(feed) ? feed : [];
+  } catch {
+    return [];
+  }
+};
+
+const saveAssistantFeed = (entries) => {
+  localStorage.setItem(ASSISTANT_FEED_KEY, JSON.stringify(entries));
+};
+
+const addAssistantFeedEntry = (text, author = 'Open Future+ Admin') => {
+  const entries = readAssistantFeed();
+  entries.push({
+    id: `feed-${Date.now()}-${Math.random().toString(16).slice(2, 8)}`,
+    text,
+    author,
+    createdAt: new Date().toISOString(),
+  });
+  saveAssistantFeed(entries.slice(-12));
+};
+
 const saveUsers = (users) => {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(users));
+};
+
+const loadThemePreference = () => {
+  const stored = localStorage.getItem(THEME_STORAGE_KEY);
+  return stored === 'light' || stored === 'dark' ? stored : 'dark';
+};
+
+const applyTheme = (theme) => {
+  const selectedTheme = theme === 'light' ? 'light' : 'dark';
+  document.body.dataset.theme = selectedTheme;
+  document.documentElement.style.colorScheme = selectedTheme;
+
+  const toggle = document.getElementById('themeToggle');
+  if (toggle) {
+    toggle.setAttribute('aria-pressed', String(selectedTheme === 'light'));
+    toggle.querySelector('.theme-toggle-thumb')?.setAttribute('data-checked', String(selectedTheme === 'light'));
+  }
+};
+
+const ensureThemeToggle = () => {
+  const nav = document.querySelector('.nav');
+  if (!nav || nav.querySelector('#themeToggle')) return;
+
+  const button = document.createElement('button');
+  button.type = 'button';
+  button.id = 'themeToggle';
+  button.className = 'theme-toggle';
+  button.setAttribute('aria-label', 'Toggle light and dark mode');
+  button.setAttribute('aria-pressed', 'false');
+  button.innerHTML = `
+    <span class="theme-toggle-track">
+      <span class="theme-toggle-thumb"></span>
+    </span>
+  `;
+
+  button.addEventListener('click', () => {
+    const nextTheme = document.body.dataset.theme === 'light' ? 'dark' : 'light';
+    localStorage.setItem(THEME_STORAGE_KEY, nextTheme);
+    applyTheme(nextTheme);
+  });
+
+  nav.appendChild(button);
+  applyTheme(loadThemePreference());
+};
+
+const openWhatsApp = (message = 'Hi Open Future+, I would like to learn more about your support.') => {
+  const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+  window.open(url, '_blank', 'noopener,noreferrer');
+};
+
+const getVisibleAssistantMessage = () => {
+  const entries = readAssistantFeed();
+  const latest = entries[entries.length - 1];
+  return latest?.text || 'Hi! I’m here to help with Open Future+, APS, TUT, funding, and opportunities.';
 };
 
 const readSessionUser = () => {
@@ -1437,21 +2269,36 @@ const renderJobListings = () => {
     return radius <= maxDistance || maxDistance >= 150;
   });
 
-  list.innerHTML = filteredJobs.map((job) => `
-    <article class="job-card">
-      <div class="job-top">
-        <div>
-          <span class="job-type">${job.type || job.category || 'Opportunity'}</span>
-          <h3>${getOpportunityDisplayName(job)}</h3>
+  list.innerHTML = filteredJobs.map((job) => {
+    const links = normalizeOpportunityLinks(job);
+    const applyUrl = links[0] || job.applicationUrl || job.url || '#';
+    return `
+      <article class="job-card">
+        <div class="job-top">
+          <div>
+            <span class="job-type">${job.type || job.category || 'Opportunity'}</span>
+            <h3>${getOpportunityDisplayName(job)}</h3>
+          </div>
+          <span class="job-distance">${job.radiusKm ? `Up to ${job.radiusKm} km` : (job.remote ? 'Remote' : 'Location not provided')}</span>
         </div>
-        <span class="job-distance">${job.radiusKm ? `Up to ${job.radiusKm} km` : (job.remote ? 'Remote' : 'Location not provided')}</span>
-      </div>
-      <p>${job.requirements || job.description || 'Information not provided'}</p>
-      <p><strong>Location:</strong> ${[job.suburb, job.city, job.province, job.location].filter(Boolean).join(', ') || 'Location not provided'}</p>
-      <p><strong>Source:</strong> ${job.source || 'Source not provided'}</p>
-      <a href="${job.url || '#'}" target="_blank" rel="noopener">Open verified listing</a>
-    </article>
-  `).join('');
+        <p>${job.requirements || job.description || 'Information not provided'}</p>
+        <p><strong>Location:</strong> ${[job.suburb, job.city, job.province, job.location].filter(Boolean).join(', ') || 'Location not provided'}</p>
+        <p><strong>Source:</strong> ${job.source || 'Source not provided'}</p>
+        <div class="detail-actions">
+          <button type="button" class="button secondary job-detail-trigger" data-job-id="${sanitizeText(job.id || getOpportunityDisplayName(job))}">Open record</button>
+          <a href="${applyUrl}" target="_blank" rel="noopener">Apply Now →</a>
+        </div>
+      </article>
+    `;
+  }).join('');
+
+  list.querySelectorAll('.job-detail-trigger').forEach((button) => {
+    button.addEventListener('click', () => {
+      const key = button.dataset.jobId;
+      const item = catalog.find((job) => (job.id || getOpportunityDisplayName(job)) === key);
+      if (item) openOpportunityDetailModal(item);
+    });
+  });
 };
 
 const showToast = (message) => {
@@ -1581,7 +2428,7 @@ const renderAdminUsers = () => {
   if (!list) return;
 
   list.innerHTML = users.map((user) => `
-    <li>
+    <li class="admin-list-item">
       <div>
         <strong>${sanitizeText(user.name)}</strong>
         <span>${sanitizeText(user.email)}</span>
@@ -1619,7 +2466,10 @@ const renderDashboard = () => {
           <p class="small-heading">ADMIN DASHBOARD</p>
           <h3>Welcome back, ${sanitizeText(currentUser.name)}</h3>
         </div>
-        <button type="button" class="button secondary" id="logoutButton">Logout</button>
+        <div class="dashboard-actions">
+          <button type="button" class="button secondary" data-whatsapp-button data-whatsapp-message="Hi Open Future+ admin team, I need support.">WhatsApp</button>
+          <button type="button" class="button secondary" id="logoutButton">Logout</button>
+        </div>
       </div>
       <div class="users-panel">
         <ul id="adminUsersList" class="admin-user-list"></ul>
@@ -1667,7 +2517,7 @@ const renderDashboard = () => {
       ${unlockReady ? `
         <div class="unlock-box">
           <p>You have reached 50 points and can talk directly with the founder.</p>
-          <a class="button primary" href="https://wa.me/27712345678?text=Hi%20Open%20Future%2B%2C%20I%20have%20reached%2050%20points%20and%20want%20to%20talk%20directly." target="_blank" rel="noopener">Talk to me directly</a>
+          <button type="button" class="button primary" data-whatsapp-button data-whatsapp-message="Hi Open Future+, I have reached 50 points and want to speak directly with the founder.">Talk to me directly</button>
         </div>
       ` : `
         <div class="unlock-box muted">
@@ -1709,6 +2559,11 @@ const renderDashboard = () => {
       const assistantToggle = document.getElementById('assistantToggle');
       if (assistantToggle) assistantToggle.click();
     });
+  });
+
+  body.querySelectorAll('[data-whatsapp-button]').forEach((button) => {
+    const message = button.getAttribute('data-whatsapp-message') || 'Hi Open Future+, I would like to learn more.';
+    button.addEventListener('click', () => openWhatsApp(message));
   });
 };
 
@@ -2059,11 +2914,16 @@ const renderAdminPage = () => {
   }
 
   const users = readUsers();
+  const preferredUserId = localStorage.getItem('openfuture_selected_admin_user') || users.find((user) => user.role !== 'admin')?.id || users[0]?.id || '';
+  const selectedUser = users.find((user) => user.id === preferredUserId) || users[0] || null;
+  const adminFeed = readAssistantFeed();
+
   root.innerHTML = `
     <header class="site-header">
       <nav class="nav container" aria-label="Admin navigation">
         <a href="index.html" class="logo">Open Future<span>+</span></a>
         <div class="admin-actions">
+          <button type="button" class="button secondary" data-whatsapp-button data-whatsapp-message="Hi Open Future+ admin team, I need support.">WhatsApp</button>
           <button type="button" class="button secondary" id="adminLogoutButton">Logout</button>
         </div>
       </nav>
@@ -2071,7 +2931,7 @@ const renderAdminPage = () => {
 
     <main class="section">
       <div class="container">
-        <div class="dashboard-card">
+        <div class="dashboard-card admin-dashboard-shell">
           <div class="dashboard-header">
             <div>
               <p class="small-heading">ADMIN CONTROL</p>
@@ -2090,22 +2950,92 @@ const renderAdminPage = () => {
             </div>
           </div>
 
-          <div class="admin-list-wrap">
-            <ul class="admin-user-list">
-              ${users.map((user) => `
-                <li>
-                  <div>
-                    <strong>${user.name}</strong>
-                    <span>${user.email}</span>
+          <div class="admin-layout">
+            <div class="admin-user-rail">
+              <div class="admin-rail-header">
+                <h3>People</h3>
+                <span>${users.length} records</span>
+              </div>
+              <ul class="admin-user-list">
+                ${users.map((user) => `
+                  <li>
+                    <button type="button" class="admin-user-card ${selectedUser && user.id === selectedUser.id ? 'active' : ''}" data-user-id="${sanitizeText(user.id)}">
+                      <div>
+                        <strong>${sanitizeText(user.name)}</strong>
+                        <span>${sanitizeText(user.email)}</span>
+                      </div>
+                      <div>
+                        <span>${sanitizeText(formatPhoneForDisplay(user.phone))}</span>
+                        <small>${sanitizeText(user.role === 'admin' ? 'Admin' : `Credit ${Number(user.points || 0)}`)}</small>
+                      </div>
+                    </button>
+                  </li>
+                `).join('')}
+              </ul>
+            </div>
+
+            <aside class="admin-user-panel">
+              ${selectedUser ? `
+                <div class="admin-user-detail-head">
+                  <p class="small-heading">PROFILE</p>
+                  <h3>${sanitizeText(selectedUser.name)}</h3>
+                </div>
+                <div class="admin-detail-grid">
+                  <div class="user-card">
+                    <span>Email</span>
+                    <strong>${sanitizeText(selectedUser.email || 'Information not provided')}</strong>
                   </div>
-                  <div>
-                    <span>${user.phone}</span>
-                    <small>${user.role}</small>
+                  <div class="user-card">
+                    <span>Phone</span>
+                    <strong>${sanitizeText(formatPhoneForDisplay(selectedUser.phone))}</strong>
                   </div>
-                  <div class="mask-password">${user.password ? '••••••••' : 'Not set'}</div>
-                </li>
-              `).join('')}
-            </ul>
+                  <div class="user-card">
+                    <span>District</span>
+                    <strong>${sanitizeText(selectedUser.district || 'Information not provided')}</strong>
+                  </div>
+                  <div class="user-card">
+                    <span>School</span>
+                    <strong>${sanitizeText(selectedUser.school || 'Information not provided')}</strong>
+                  </div>
+                  <div class="user-card">
+                    <span>Role</span>
+                    <strong>${sanitizeText(selectedUser.role || 'user')}</strong>
+                  </div>
+                  <div class="user-card">
+                    <span>Credits</span>
+                    <strong>${Number(selectedUser.points || 0)}</strong>
+                  </div>
+                </div>
+                <div class="admin-detail-actions">
+                  <button type="button" class="button primary" data-whatsapp-button data-whatsapp-message="Hi ${sanitizeText(selectedUser.name)}, I am contacting you from Open Future+.">WhatsApp ${sanitizeText(selectedUser.name)}</button>
+                  <button type="button" class="button secondary" data-admin-message-target="${sanitizeText(selectedUser.id)}">Send a message</button>
+                </div>
+              ` : '<p>No user selected.</p>'}
+            </aside>
+          </div>
+
+          <div class="assistant-admin-panel">
+            <div class="assistant-admin-header">
+              <div>
+                <p class="small-heading">ASSISTANT FEED</p>
+                <h3>Promoted assistant messages</h3>
+              </div>
+            </div>
+            <div class="assistant-feed-list">
+              ${adminFeed.length ? adminFeed.map((entry) => `
+                <div class="assistant-feed-item">
+                  <strong>${sanitizeText(entry.author || 'Open Future+ Admin')}</strong>
+                  <span>${sanitizeText(entry.text)}</span>
+                  <small>${new Date(entry.createdAt || Date.now()).toLocaleString()}</small>
+                </div>
+              `).join('') : `<div class="assistant-feed-item empty"><span>No messages yet. Add one for the user-facing assistant.</span></div>`}
+            </div>
+            <form id="assistantAdminForm" class="assistant-admin-form">
+              <textarea id="assistantAdminMessage" rows="3" placeholder="Write a message for the assistant to show users..."></textarea>
+              <div class="admin-actions">
+                <button type="submit" class="button primary">Send to assistant</button>
+              </div>
+            </form>
           </div>
 
           <div class="admin-list-wrap">
@@ -2156,6 +3086,47 @@ const renderAdminPage = () => {
       </div>
     </main>
   `;
+
+  const userButtons = root.querySelectorAll('.admin-user-card');
+  userButtons.forEach((button) => {
+    button.addEventListener('click', () => {
+      localStorage.setItem('openfuture_selected_admin_user', button.dataset.userId);
+      renderAdminPage();
+    });
+  });
+
+  const messageTargetButtons = root.querySelectorAll('[data-admin-message-target]');
+  messageTargetButtons.forEach((button) => {
+    button.addEventListener('click', () => {
+      const messageField = document.getElementById('assistantAdminMessage');
+      if (!messageField) return;
+      const targetName = users.find((entry) => entry.id === button.dataset.adminMessageTarget)?.name || 'student';
+      messageField.value = `Reply to ${targetName}: `;
+      messageField.focus();
+    });
+  });
+
+  const assistantAdminForm = document.getElementById('assistantAdminForm');
+  if (assistantAdminForm) {
+    assistantAdminForm.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const field = document.getElementById('assistantAdminMessage');
+      const value = field?.value.trim();
+      if (!value) {
+        showToast('Write a message before sending it to the assistant.');
+        return;
+      }
+      addAssistantFeedEntry(value, ADMIN_NAME);
+      field.value = '';
+      renderAdminPage();
+      showToast('Message shared with the user assistant.');
+    });
+  }
+
+  root.querySelectorAll('[data-whatsapp-button]').forEach((button) => {
+    const message = button.getAttribute('data-whatsapp-message') || 'Hi Open Future+, I would like to learn more.';
+    button.addEventListener('click', () => openWhatsApp(message));
+  });
 
   renderAdminOpportunityList();
 
@@ -2264,7 +3235,7 @@ const ensureAssistantWidget = () => {
         <button type="button" class="assistant-close" id="assistantClose" aria-label="Close assistant">×</button>
       </div>
       <div class="assistant-messages" id="assistantMessages">
-        <div class="message bot">Hi! I’m here to help with Open Future+, APS, TUT, funding, and opportunities.</div>
+        <div class="message bot">${sanitizeText(getVisibleAssistantMessage())}</div>
       </div>
       <form id="assistantForm" class="assistant-form">
         <input type="text" placeholder="Ask a question..." aria-label="Ask the assistant a question" />
@@ -2696,19 +3667,37 @@ try {
     renderJobListings();
     renderMorePlaces();
     bindLocationSearchControls();
+    bindOpportunityFinderControls();
     renderNearByResults({ suburb: '', city: '', province: '' });
+    renderOpportunityFinderResults(readOpportunityFinderState());
     const jobDistanceFilter = document.getElementById('jobDistanceFilter');
     if (jobDistanceFilter) {
       jobDistanceFilter.addEventListener('change', renderJobListings);
     }
   }
 
+  const detailModal = document.getElementById('opportunityDetailModal');
+  if (detailModal) {
+    detailModal.addEventListener('click', (event) => {
+      if (event.target && event.target.dataset.closeDetail === 'true') {
+        closeOpportunityDetailModal();
+      }
+    });
+
+    const closeButton = detailModal.querySelector('.opportunity-detail-close');
+    if (closeButton) {
+      closeButton.addEventListener('click', closeOpportunityDetailModal);
+    }
+  }
+
+  ensureDemoUsers();
+  ensureThemeToggle();
+  applyTheme(loadThemePreference());
+
   if (isAdminPage()) {
     protectAdminPage();
-    ensureDemoUsers();
     renderAdminPage();
   } else {
-    ensureDemoUsers();
     ensureLoginButton();
     setupAuthModal();
     setupDashboard();
