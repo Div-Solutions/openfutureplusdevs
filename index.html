@@ -19,7 +19,6 @@
     <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
     <title>Open Future+ | No Limits. Just Possibilities.</title>
     <link rel="stylesheet" href="style.css" />
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   </head>
   <body>
     <header class="site-header">
@@ -77,21 +76,6 @@
                 <span>&amp; Funding</span>
               </div>
             </div>
-
-            <div class="hero-proof" aria-label="Open Future+ highlights">
-              <div class="proof-item">
-                <strong>Study</strong>
-                <span>Support</span>
-              </div>
-              <div class="proof-item">
-                <strong>Career</strong>
-                <span>Guidance</span>
-              </div>
-              <div class="proof-item">
-                <strong>Future</strong>
-                <span>Ready</span>
-              </div>
-            </div>
           </div>
 
           <div class="hero-visual" aria-hidden="true">
@@ -102,28 +86,6 @@
             <div class="floating-card card-one">🎓 Education</div>
             <div class="floating-card card-two">💼 Opportunities</div>
             <div class="floating-card card-three">🚀 Your Future</div>
-          </div>
-        </div>
-      </section>
-
-      <section class="section feature-highlight-section">
-        <div class="container">
-          <div class="highlight-strip">
-            <article class="highlight-card">
-              <span class="highlight-badge">01</span>
-              <h3>Student-first support</h3>
-              <p>Guidance that helps students make smarter choices about study and careers.</p>
-            </article>
-            <article class="highlight-card">
-              <span class="highlight-badge">02</span>
-              <h3>Funding &amp; direction</h3>
-              <p>Practical steps for funding, programmes, and opportunities that matter.</p>
-            </article>
-            <article class="highlight-card">
-              <span class="highlight-badge">03</span>
-              <h3>Future focused</h3>
-              <p>Learn, grow, and move forward with confidence and real-world clarity.</p>
-            </article>
           </div>
         </div>
       </section>
@@ -215,12 +177,76 @@
 
           <div class="tool-panel">
             <form id="apsForm" class="mini-form">
-              <div id="apsSubjectRows" class="aps-subject-rows" aria-live="polite"></div>
-
-              <div class="aps-actions">
-                <button type="button" id="addApsSubject" class="button secondary">Add Subject</button>
-                <button type="submit" class="button primary">Calculate APS</button>
+              <div class="input-grid">
+                <div>
+                  <label for="subject1">Subject 1</label>
+                  <input id="subject1" type="text" placeholder="e.g. English" value="English" />
+                </div>
+                <div>
+                  <label for="percentage1">% or Level</label>
+                  <input id="percentage1" type="number" min="0" max="100" step="1" placeholder="85 or choose below" />
+                </div>
+                <div>
+                  <label for="level1">Level</label>
+                  <select id="level1">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                  </select>
+                </div>
               </div>
+
+              <div class="input-grid">
+                <div>
+                  <label for="subject2">Subject 2</label>
+                  <input id="subject2" type="text" placeholder="e.g. Mathematics" value="Mathematics" />
+                </div>
+                <div>
+                  <label for="percentage2">% or Level</label>
+                  <input id="percentage2" type="number" min="0" max="100" step="1" placeholder="92 or choose below" />
+                </div>
+                <div>
+                  <label for="level2">Level</label>
+                  <select id="level2">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7" selected>7</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="input-grid">
+                <div>
+                  <label for="subject3">Subject 3</label>
+                  <input id="subject3" type="text" placeholder="e.g. Life Orientation" value="Life Orientation" />
+                </div>
+                <div>
+                  <label for="percentage3">% or Level</label>
+                  <input id="percentage3" type="number" min="0" max="100" step="1" placeholder="75 or choose below" />
+                </div>
+                <div>
+                  <label for="level3">Level</label>
+                  <select id="level3">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5" selected>5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                  </select>
+                </div>
+              </div>
+
+              <button type="submit" class="button primary">Calculate APS</button>
             </form>
 
             <div class="result-box" id="apsResult">
@@ -360,7 +386,7 @@
             <div class="founder-media">
               <div class="founder-photo-placeholder" aria-label="Founder photo">
                 <img
-                  src="./assets/my-picture.jpg"
+                  src="./My picture .jpg"
                   alt="Vuledzani Mbangambanga"
                   width="500"
                   height="500"
@@ -371,7 +397,7 @@
 
               <div class="company-logo-placeholder" aria-label="Company logo">
                 <img
-                  src="./assets/open-future-logo.png"
+                  src="./ChatGPT Image Sep 23, 2026, 12_18_13 AM.png"
                   alt="Open Future+ logo"
                   width="500"
                   height="200"
@@ -393,10 +419,10 @@
               </p>
 
               <p>
-                As an IT &amp; Informatics student and aspiring entrepreneur,
-                Vuledzani started Open Future+ with the vision of creating a
-                platform that connects young people with education resources,
-                opportunities, career guidance, and practical support.
+                As an IT &amp; Informatics student, drummer, and aspiring
+                entrepreneur, Vuledzani started Open Future+ with the vision of
+                creating a platform that connects young people with education
+                resources, opportunities, career guidance, and practical support.
               </p>
 
               <p>
@@ -411,6 +437,14 @@
             </div>
           </div>
 
+          <div class="cofounder-card">
+            <p class="small-heading">COMMUNITY</p>
+            <h3>Open Future+ Community</h3>
+            <p>
+              We are building a supportive space where young people can connect with
+              information, opportunities, and guidance that helps them move forward.
+            </p>
+          </div>
         </div>
       </section>
 
@@ -479,7 +513,7 @@
             <h2>Need quick help? Message us.</h2>
           </div>
 
-          <a href="https://wa.me/27712345678" class="button primary" target="_blank" rel="noreferrer">
+          <a href="https://wa.me/27729990064" class="button primary" target="_blank" rel="noreferrer">
             Chat on WhatsApp
           </a>
         </div>
@@ -492,9 +526,9 @@
         <p>No Limits. Just Possibilities.</p>
 
         <div class="social-links" aria-label="Open Future+ social media links">
-          <a href="https://wa.me/27712345678" target="_blank" rel="noreferrer">WhatsApp</a>
-          <a href="https://instagram.com/openFuture+" target="_blank" rel="noreferrer">Instagram</a>
-          <a href="https://facebook.com" target="_blank" rel="noreferrer">Facebook</a>
+          <a href="https://wa.me/27729990064" target="_blank" rel="noreferrer">WhatsApp</a>
+          <a href="https://www.instagram.com/openfutureplus?stkn=M2tqNDk1dzA3dDRj" target="_blank" rel="noreferrer">Instagram</a>
+          <a href="https://www.facebook.com/share/18RJTjyvYu/" target="_blank" rel="noreferrer">Facebook</a>
           <a href="https://www.tiktok.com/@openFuturePlus" target="_blank" rel="noreferrer">TikTok</a>
         </div>
 
@@ -505,7 +539,7 @@
           <a class="social-icon" href="https://www.instagram.com/openfutureplus?stkn=M2tqNDk1dzA3dDRj" target="_blank" rel="noopener noreferrer" aria-label="Open Instagram">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5Zm0 2a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3H7Zm5 3.3A4.7 4.7 0 1 1 7.3 12 4.7 4.7 0 0 1 12 7.3Zm0 2A2.7 2.7 0 1 0 14.7 12 2.7 2.7 0 0 0 12 9.3Zm5.1-3.1a1.1 1.1 0 1 1-1.1-1.1 1.1 1.1 0 0 1 1.1 1.1Z"/></svg>
           </a>
-          <a class="social-icon" href="https://wa.me/27712345678?text=Hi%20Open%20Future%2B%20%F0%9F%91%8B.%20I%20would%20like%20to%20reach%20out%20and%20find%20out%20more%20about%20Open%20Future%2B%20and%20how%20you%20can%20help%20me.%20Thank%20you!" target="_blank" rel="noopener noreferrer" aria-label="Open WhatsApp">
+          <a class="social-icon" href="https://wa.me/27729990064?text=Hi%20Open%20Future%2B%20%F0%9F%91%8B.%20I%20would%20like%20to%20reach%20out%20and%20find%20out%20more%20about%20Open%20Future%2B%20and%20how%20you%20can%20help%20me.%20Thank%20you!" target="_blank" rel="noopener noreferrer" aria-label="Open WhatsApp">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12.1 2A10 10 0 0 0 4.3 17.4L2.5 21.5l4.3-1.8A10 10 0 1 0 12.1 2Zm5.5 14.1c-.2.6-1.3 1.2-1.8 1.3-.5.1-1.1.1-3.4-.7-2.9-.9-4.7-3.5-4.9-3.7-.2-.2-1.7-2.2-1.7-4.2 0-2.1 1.1-3.1 1.5-3.5.4-.4.8-.5 1.1-.5h.8c.3 0 .8.1 1.2.8l1.5 3.7c.1.2.1.5 0 .7l-.7 1c-.2.3-.5.7-.2 1.2.3.4 1.1 1.8 2.3 2.9 1.6 1.4 2.9 1.9 3.4 2.1.5.2.8.2 1.1-.1l1.1-1.2c.3-.4.7-.4 1-.2l2.8 1.7c.3.2.5.4.5.7.1.3.1.6-.1 1.1Z"/></svg>
           </a>
         </div>

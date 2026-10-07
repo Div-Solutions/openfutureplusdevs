@@ -29,38 +29,15 @@
           <div class="section-heading">
             <p class="small-heading">TUT COURSE CHECKER</p>
             <h2>See which programmes may match your results.</h2>
-            <p>Enter your information and the checker will only make a qualification decision when verified TUT prospectus data is available for the selected year.</p>
+            <p>Use this quick example tool to estimate your fit for different study fields and the kind of work you could do after graduation.</p>
           </div>
 
           <div class="tool-panel">
             <form id="tutForm" class="mini-form">
-              <label for="tutYear">Prospectus year</label>
-              <input id="tutYear" type="number" min="2020" max="2100" value="2026" />
+              <label for="tutScore">APS Score</label>
+              <input id="tutScore" type="number" min="0" max="42" value="30" />
 
-              <label for="tutSubjectOne">Subject</label>
-              <input id="tutSubjectOne" class="tut-subject" type="text" placeholder="e.g. Mathematics" />
-
-              <label for="tutMarkOne">Mark</label>
-              <input id="tutMarkOne" class="tut-mark" type="number" min="0" max="100" placeholder="e.g. 72" />
-
-              <label for="tutLevelOne">Achievement level (optional if mark is entered)</label>
-              <select id="tutLevelOne">
-                <option value="">Select a level</option>
-                <option value="1">1</option><option value="2">2</option><option value="3">3</option>
-                <option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option>
-              </select>
-
-              <label for="tutSubjectTwo">Additional subject (optional)</label>
-              <input id="tutSubjectTwo" class="tut-subject" type="text" placeholder="e.g. English" />
-              <label for="tutMarkTwo">Additional subject mark (optional)</label>
-              <input id="tutMarkTwo" class="tut-mark" type="number" min="0" max="100" placeholder="e.g. 65" />
-
-              <label for="tutSubjectThree">Another subject (optional)</label>
-              <input id="tutSubjectThree" class="tut-subject" type="text" placeholder="e.g. Physical Sciences" />
-              <label for="tutMarkThree">Another subject mark (optional)</label>
-              <input id="tutMarkThree" class="tut-mark" type="number" min="0" max="100" placeholder="e.g. 58" />
-
-              <label for="tutCourse">Preferred study area (optional)</label>
+              <label for="tutCourse">Preferred study area</label>
               <select id="tutCourse">
                 <option value="informatics">Informatics / IT</option>
                 <option value="business">Business / Commerce</option>
@@ -73,7 +50,7 @@
               <button type="submit" class="button primary">Check Programme Fit</button>
             </form>
 
-            <div class="result-box" id="tutResult">Enter your subjects and marks, then check the selected year's verified requirements.</div>
+            <div class="result-box" id="tutResult">Your suggested programme fit will appear here.</div>
           </div>
         </div>
       </section>
