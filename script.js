@@ -7,7 +7,6 @@ const tutForm = document.getElementById('tutForm');
 const year = document.getElementById('year');
 const STORAGE_KEY = 'openfuture_users_v1';
 const SESSION_KEY = 'openfuture_session_v1';
-const THEME_KEY = 'openfuture_theme_v1';
 const ADMIN_EMAIL = 'mutavhatsindivule@gmail.com';
 const ADMIN_PASSWORD = 'Admin@1';
 const ADMIN_PHONE = '+27716420323';
@@ -598,8 +597,8 @@ const getAssistantReply = (question) => {
   if (q.includes('instagram')) return 'You can find Open Future+ on Instagram at @openfutureplus.';
   if (q.includes('facebook')) return 'Open Future+ is also on Facebook, and you can find the link in the social section of the site.';
   if (q.includes('tiktok') || q.includes('tik tok')) return 'Open Future+ is on TikTok too — look for openFuturePlus.';
-  if (q.includes('venda')) return 'Open Future+ is rooted in community and youth growth, with support for students and young people across South Africa.';
-  if (q.includes('founder')) return 'The founder of Open Future+ is Vuledzani Mbangambanga, and the mission is to help young people grow, learn, and move forward with confidence.';
+  if (q.includes('venda') || q.includes('venda')) return 'I am proud to support Open Future+ and help young people connect with culture, identity, and opportunity.';
+  if (q.includes('founder') || q.includes('scott')) return 'Scott Za is part of the Open Future+ journey, and the mission is to help young people grow, learn, and move forward with confidence.';
   if (q.includes('future')) return 'Open Future+ is built to support students and young people with study guidance, funding help, opportunities, and next-step planning.';
   if (q.includes('login') || q.includes('sign up') || q.includes('register')) return 'You can create an account with your email, phone number, and password. For admin access, use the admin credentials provided on the site.';
   if (q.includes('password')) return 'A strong password should include a capital letter, a small letter, a number, and a special character so it is safer.';
@@ -607,52 +606,6 @@ const getAssistantReply = (question) => {
   if (q.includes('who are you') || q.includes('what are you')) return 'I am your Open Future+ assistant, here to guide you, answer questions, and help you navigate the site more easily.';
 
   return 'I understand what you are asking, and I can help with Open Future+, APS, TUT, funding, opportunities, and your next steps. Tell me a bit more and I will guide you clearly.';
-};
-getPreferredTheme = () => {
-  try {
-    const savedTheme = localStorage.getItem(THEME_KEY);
-    if (savedTheme === 'light' || savedTheme === 'dark') {
-      return savedTheme;
-    }
-  } catch {
-    // no-op
-  }
-
-  return window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
-};
-
-const applyTheme = (theme) => {
-  const selectedTheme = theme === 'light' ? 'light' : 'dark';
-  document.body.dataset.theme = selectedTheme;
-
-  try {
-    localStorage.setItem(THEME_KEY, selectedTheme);
-  } catch {
-    // no-op
-  }
-
-  const toggle = document.querySelector('.theme-toggle');
-  if (!toggle) return;
-  toggle.textContent = selectedTheme === 'dark' ? '☀️ Light' : '🌙 Dark';
-  toggle.setAttribute('aria-label', selectedTheme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
-};
-
-const setupThemeToggle = () => {
-  const nav = document.querySelector('.nav');
-  if (!nav || document.querySelector('.theme-toggle')) return;
-
-  const toggle = document.createElement('button');
-  toggle.type = 'button';
-  toggle.className = 'theme-toggle';
-  toggle.setAttribute('aria-label', 'Toggle theme');
-  nav.appendChild(toggle);
-
-  toggle.addEventListener('click', () => {
-    const nextTheme = document.body.dataset.theme === 'dark' ? 'light' : 'dark';
-    applyTheme(nextTheme);
-  });
-
-  applyTheme(getPreferredTheme());
 };
 
 const ensureLoginButton = () => {
@@ -1318,6 +1271,14 @@ if (tutForm) {
 
     const selected = courseMatches[course] || courseMatches.business;
 
+    if (score >= 30) {
+      resultBox.textContent = `Good match: your score suggests you may qualify for ${selected.match}. Potential career paths include ${selected.career}. Always confirm with the official TUT prospectus.`;
+    } else {
+      resultBox.textContent = `This score is lower than the typical minimum for ${selected.match}, but you may still explore alternative study options, bridging routes, or foundation programmes. Career paths may include ${selected.career}.`;
+    }
+  });
+}
+
 if (helpForm) {
   helpForm.addEventListener('submit', (event) => {
     event.preventDefault();
@@ -1358,12 +1319,14 @@ window.addEventListener('load', keepPageAtTop);
 window.addEventListener('beforeunload', keepPageAtTop);
 
 const enforceBrowserSecurity = () => {
-  // Allow the static site to open locally as a normal front-end app without blocking access.
+  if (window.location.protocol === 'file:') {
+    document.body.innerHTML = '<main style="padding:2rem;color:white;background:#08131d;font-family:sans-serif;"><h1>Access denied</h1><p>This website must be served over HTTP/HTTPS, not opened as a local file.</p></main>';
+    throw new Error('Direct file access is forbidden for security reasons.');
+  }
 };
 
 try {
   enforceBrowserSecurity();
-  setupThemeToggle();
 
   if (document.getElementById('subjectResourceList')) {
     renderSubjectResources();
